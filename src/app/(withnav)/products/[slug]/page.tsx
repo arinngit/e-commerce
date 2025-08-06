@@ -1,7 +1,10 @@
 import { fetchProductById } from "@/app/api/products";
+import Footer from "@/components/footer";
 import Navbar from "@/components/layout/header/navbar";
 import Details from "@/components/products/details";
-import ProductDetails from "@/components/ui/product-details";
+import MaybeLike from "@/components/products/maybe-like";
+import Reviews from "@/components/products/reviews";
+import { Product } from "@/types/product";
 
 interface ProductPageProps {
   params: {
@@ -21,7 +24,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
   return (
     <div>
       <Navbar />
-      <Details />
+      <Details product={product} />
+      <Reviews />
+      <MaybeLike />
+      <Footer/>
     </div>
   );
 }

@@ -1,27 +1,32 @@
-'use client'
+"use client";
+import { Product, ProductColor } from "@/types/product";
 import { Star, ChevronRight, Plus, Minus, Check } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 
-export default function Details() {
-  const [selectedColor, setSelectedColor] = useState(0);
-  const [selectedSize, setSelectedSize] = useState("Large");
-  const [quantity, setQuantity] = useState(1);
+interface ProductDetailsProps {
+  product: Product;
+}
 
-  const colors = [
-    { name: "Olive", color: "bg-green-700", selected: true },
-    { name: "Teal", color: "bg-teal-600", selected: false },
-    { name: "Navy", color: "bg-blue-900", selected: false }
-  ];
+export default function Details({ product }: ProductDetailsProps) {
+  const availableColors: ProductColor[] = product.colors?.length
+  ? product.colors
+  : [
+      {
+        colorId: 0,
+        colorName: "Default",
+        hexCode: "#808080"
+      }
+    ];
 
-  const sizes = ["M", "L", "XL"];
+  const availableSizes = product.sizes?.map(size => size.sizeName) || 
+    ["S", "M", "L", "XL"];
 
-  const thumbnails = [
-    { id: 1, selected: true },
-    { id: 2, selected: false },
-    { id: 3, selected: false }
-  ];
+  const [selectedColor, setSelectedColor] = useState<number>(0);
+  const [selectedSize, setSelectedSize] = useState<string>(availableSizes[0]);
+  const [quantity, setQuantity] = useState<number>(1);
 
-  const renderStars = (rating : number) => {
+  const renderStars = (rating: number = 0) => {
     const stars = [];
     const fullStars = Math.floor(rating);
     const hasHalfStar = rating % 1 !== 0;
@@ -45,85 +50,118 @@ export default function Details() {
 
     const remainingStars = 5 - Math.ceil(rating);
     for (let i = 0; i < remainingStars; i++) {
-      stars.push(
-        <Star key={`empty-${i}`} className="w-5 h-5 text-gray-300" />
-      );
+      stars.push(<Star key={`empty-${i}`} className="w-5 h-5 text-gray-300" />);
     }
 
     return stars;
   };
 
+  const getContrastColor = (hexColor: string) => {
+    const r = parseInt(hexColor.substr(1, 2), 16);
+    const g = parseInt(hexColor.substr(3, 2), 16);
+    const b = parseInt(hexColor.substr(5, 2), 16);
+    const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+    return brightness > 128 ? "#000000" : "#ffffff";
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
       <nav className="flex items-center space-x-2 text-gray-500 mb-8">
-        <span className="hover:text-gray-700 cursor-pointer font-satoshi">Home</span>
+        <Link href="/">
+          <span className="hover:text-gray-700 cursor-pointer font-satoshi">
+            Home
+          </span>
+        </Link>
         <ChevronRight className="w-4 h-4" />
-        <span className="hover:text-gray-700 cursor-pointer font-satoshi">Shop</span>
+        <span className="hover:text-gray-700 cursor-pointer font-satoshi">
+          <Link href="/shop">Shop</Link>
+        </span>
         <ChevronRight className="w-4 h-4" />
-        <span className="hover:text-gray-700 cursor-pointer font-satoshi">Men</span>
-        <ChevronRight className="w-4 h-4" />
-        <span className="text-black font-medium font-satoshi">T-shirts</span>
+        <span className="text-black font-medium font-satoshi">
+          {product.category || "T-shirts"}
+        </span>
       </nav>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div className="flex-1 bg-gray-100 rounded-2xl aspect-square flex items-center justify-center">
-            <div className="w-72 h-72 bg-green-700 rounded-lg flex items-center justify-center">
-              <span className="text-white text-sm opacity-50">T-shirt Image</span>
-          </div>
+        <div className="flex-1 bg-gray-100 rounded-2xl aspect-square flex items-center justify-center">
+          {product.photoUrl ? (
+            <img
+              src={product.photoUrl}
+              alt={product.name}
+              className="w-full h-full object-contain rounded-lg"
+            />
+          ) : (
+            <div className="w-72 h-72 bg-gray-200 rounded-lg flex items-center justify-center">
+              <span className="text-gray-500 text-sm">No image</span>
+            </div>
+          )}
         </div>
 
         <div className="space-y-6">
           <h1 className="text-3xl md:text-4xl font-satoshi font-black text-black">
-            ONE LIFE GRAPHIC T-SHIRT
+            {product.name}
           </h1>
 
           <div className="flex items-center gap-3">
-            <div className="flex items-center gap-1">
-              {renderStars(4.5)}
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <span className="text-3xl font-satoshi font-bold text-black">$260</span>
+            <span className="text-3xl font-satoshi font-bold text-black">
+              ${product.price}
+            </span>
           </div>
 
           <p className="text-gray-600 leading-relaxed font-satoshi">
-            This graphic t-shirt which is perfect for any occasion. Crafted from a soft and 
-            breathable fabric, it offers superior comfort and style.
+            {product.description || "No description available"}
           </p>
 
+          {availableColors.length > 0 && (
+            <>
+              <hr className="border-gray-200" />
+              <div className="space-y-4">
+                <h3 className="text-gray-600 font-satoshi">Select Colors</h3>
+                <div className="flex gap-3">
+                  {availableColors.map((color: ProductColor, index: number) => {
+                    const contrastColor = getContrastColor(color.hexCode);
+                    const isLightColor = contrastColor === "#000000";
+
+                    return (
+                      <button
+                        key={index}
+                        onClick={() => setSelectedColor(index)}
+                        className={`w-10 h-10 rounded-full flex items-center justify-center border ${
+                          isLightColor
+                            ? "border-gray-200"
+                            : "border-transparent"
+                        }`}
+                        style={{
+                          backgroundColor: color.hexCode,
+                        }}
+                        aria-label={color.colorName}
+                      >
+                        {selectedColor === index && (
+                          <Check
+                            className="w-5 h-5"
+                            style={{ color: contrastColor }}
+                          />
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            </>
+          )}
+
           <hr className="border-gray-200" />
-
-          <div className="space-y-4">
-            <h3 className="text-gray-600 font-satoshi">Select Colors</h3>
-            <div className="flex gap-3">
-              {colors.map((color, index) => (
-                <button
-                  key={index}
-                  onClick={() => setSelectedColor(index)}
-                  className={`w-10 h-10 rounded-full ${color.color} flex items-center justify-center`}
-                >
-                  {selectedColor === index && (
-                    <Check className="w-5 h-5 text-white" />
-                  )}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <hr className="border-gray-200" />
-
           <div className="space-y-4">
             <h3 className="text-gray-600 font-satoshi">Choose Size</h3>
             <div className="flex gap-3">
-              {sizes.map((size) => (
+              {availableSizes.map((size: string) => (
                 <button
                   key={size}
                   onClick={() => setSelectedSize(size)}
                   className={`px-6 py-3 rounded-full font-satoshi border transition-colors ${
                     selectedSize === size
-                      ? 'bg-black text-white border-black'
-                      : 'bg-gray-100 text-gray-700 border-gray-200 hover:border-gray-300'
+                      ? "bg-black text-white border-black"
+                      : "bg-gray-100 text-gray-700 border-gray-200 hover:border-gray-300"
                   }`}
                 >
                   {size}
@@ -133,12 +171,12 @@ export default function Details() {
           </div>
 
           <hr className="border-gray-200" />
-
           <div className="flex gap-4">
             <div className="flex items-center bg-gray-100 rounded-full">
               <button
                 onClick={() => setQuantity(Math.max(1, quantity - 1))}
                 className="p-3 hover:bg-gray-200 rounded-full"
+                aria-label="Decrease quantity"
               >
                 <Minus className="w-5 h-5" />
               </button>
@@ -146,6 +184,7 @@ export default function Details() {
               <button
                 onClick={() => setQuantity(quantity + 1)}
                 className="p-3 hover:bg-gray-200 rounded-full"
+                aria-label="Increase quantity"
               >
                 <Plus className="w-5 h-5" />
               </button>

@@ -1,28 +1,23 @@
 import { create } from 'zustand';
 import { config } from '@/config';
-
-interface Product {
-  id: string;
-  productName: string;
-  productPrice: number;
-  productSize: string;
-  quantity: number;
-  imageUrl: string;
-}
+import { Product } from "@/types/product";
 
 interface ProductsState {
   products: Product[];
   isLoading: boolean;
   error: string | null;
   fetchProducts: () => Promise<void>;
+  searchProducts: (query: string) => Product[];
 }
 
-export const useProductsStore = create<ProductsState>((set) => ({
+export const useProductsStore = create<ProductsState>((set, get) => ({
   products: [],
   isLoading: false,
   error: null,
   
   fetchProducts: async () => {
+    if (get().products.length > 0) return;
+    
     set({ isLoading: true, error: null });
     try {
       const response = await fetch(`${config.api.baseUrl}${config.api.endpoints.products}`);
@@ -32,5 +27,12 @@ export const useProductsStore = create<ProductsState>((set) => ({
     } catch (error) {
       set({ error: error instanceof Error ? error.message : 'Unknown error', isLoading: false });
     }
+  },
+  
+  searchProducts: (query: string) => {
+    if (!query.trim()) return [];
+    return get().products.filter(product =>
+      product.name.toLowerCase().includes(query.toLowerCase())
+    );
   }
 }));

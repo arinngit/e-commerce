@@ -1,5 +1,4 @@
 "use client";
-
 import { Star } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchProducts } from "../../app/api/products";
@@ -8,8 +7,8 @@ import { Product } from "@/types/product";
 import { useState } from "react";
 import Link from "next/link";
 
-export default function Arrivals() {
-  const [showAll, setShowAll] = useState(false);
+export default function MaybeLike() {
+    const [showAll, setShowAll] = useState(false);
   const {
     data: products,
     isLoading,
@@ -55,7 +54,7 @@ export default function Arrivals() {
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-4xl md:text-5xl font-sans font-bold text-center text-black mb-12">
-            NEW ARRIVALS
+            LOADING
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
             {[...Array(4)].map((_, i) => (
@@ -77,7 +76,7 @@ export default function Arrivals() {
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-4xl md:text-5xl font-sans font-bold text-center text-black mb-12">
-            NEW ARRIVALS
+            YOU MIGHT ALSO LIKE
           </h2>
           <div className="text-center text-red-500 py-8">
             Failed to load products. Please try again later.
@@ -93,7 +92,7 @@ export default function Arrivals() {
     <section id="arrivals" className="py-16 bg-white">
       <div className="max-w-7xl mx-auto px-4">
         <h2 className="text-4xl md:text-5xl font-sans font-bold text-center text-black mb-12">
-          NEW ARRIVALS
+          YOU MIGHT ALSO LIKE
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
@@ -102,13 +101,13 @@ export default function Arrivals() {
               <div className="group cursor-pointer">
                 <div className="bg-gray-100 rounded-2xl aspect-square mb-4 overflow-hidden relative">
                   <img
-                    src={product.photoUrl}
-                    alt={product.name}
+                    src={product.imageUrl}
+                    alt={product.productName}
                     className="w-full h-full object-cover object-center rounded-2xl transform transition-transform duration-300 group-hover:scale-105"
                     loading="lazy"
                     decoding="async"
                   />
-                  {!product.photoUrl && (
+                  {!product.imageUrl && (
                     <div className="absolute inset-0 bg-gray-200 flex items-center justify-center">
                       <span className="text-gray-500">No image</span>
                     </div>
@@ -117,7 +116,7 @@ export default function Arrivals() {
 
                 <div className="space-y-2">
                   <h3 className="font-satoshi font-black text-lg text-black group-hover:text-gray-600 transition-colors">
-                    {product.name}
+                    {product.productName}
                   </h3>
 
                   <div className="flex items-center gap-2">
@@ -129,22 +128,13 @@ export default function Arrivals() {
 
                   <div className="flex items-center gap-2">
                     <span className="text-xl font-satoshi font-bold text-black">
-                      ${product.price}
+                      ${product.productPrice}
                     </span>
                   </div>
                 </div>
               </div>
             </Link>
           ))}
-        </div>
-
-        <div className="text-center">
-          <button
-            onClick={() => setShowAll(!showAll)}
-            className="border border-gray-300 text-black px-16 py-3 rounded-full font-satoshi font-medium hover:bg-gray-50 transition-colors"
-          >
-            {showAll ? "Show Less" : "View All"}
-          </button>
         </div>
       </div>
     </section>
