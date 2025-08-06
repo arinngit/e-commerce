@@ -1,5 +1,6 @@
 import { Mail } from "lucide-react";
 import { Twitter, Facebook, Instagram, Github } from "lucide-react";
+import Link from "next/link";
 
 export default function FooterWithNewsletter() {
   return (
@@ -75,9 +76,11 @@ export default function FooterWithNewsletter() {
                 COMPANY
               </h3>
               <div className="flex flex-col gap-3 md:gap-4">
-                <p className="font-satoshi text-sm md:text-base hover:text-gray-600 cursor-pointer transition">
-                  About
-                </p>
+                <Link href="/about">
+                  <p className="font-satoshi text-sm md:text-base hover:text-gray-600 cursor-pointer transition">
+                    About
+                  </p>
+                </Link>
                 <p className="font-satoshi text-sm md:text-base hover:text-gray-600 cursor-pointer transition">
                   Features
                 </p>

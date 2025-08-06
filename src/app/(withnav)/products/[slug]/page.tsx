@@ -12,10 +12,8 @@ interface ProductPageProps {
   };
 }
 
-export default async function ProductPage({ params }: ProductPageProps) {
-  const { slug } = params;
-
-  const product = await fetchProductById(slug);
+export default async function ProductPage({ params }: { params: { slug: string } }) {
+  const product = await fetchProductById(params.slug);
 
   if (!product) {
     return <div>Product not found</div>;
@@ -25,7 +23,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     <div>
       <Navbar />
       <Details product={product} />
-      <Reviews />
+      <Reviews productId={product.id} />
       <MaybeLike />
       <Footer/>
     </div>

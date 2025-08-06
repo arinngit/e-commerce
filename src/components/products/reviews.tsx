@@ -1,62 +1,41 @@
 'use client'
 
 import { Star, MoreHorizontal, CheckCircle, SlidersHorizontal, ChevronDown } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export default function Reviews() {
+interface Review {
+  id: number;
+  userId: number;
+  rating: number;
+  reviewText: string;
+  createdAt: string;
+}
+
+export default function Reviews({ productId }: { productId: number }) {
   const [activeTab, setActiveTab] = useState("Rating & Reviews");
   const [sortBy, setSortBy] = useState("Latest");
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const reviews = [
-    {
-      id: 1,
-      name: "Samantha D.",
-      verified: true,
-      rating: 4.5,
-      text: "I absolutely love this t-shirt! The design is unique and the fabric feels so comfortable. As a fellow designer, I appreciate the attention to detail. It's become my favorite go-to shirt.",
-      date: "August 14, 2023"
-    },
-    {
-      id: 2,
-      name: "Alex M.",
-      verified: true,
-      rating: 4,
-      text: "The t-shirt exceeded my expectations! The colors are vibrant and the print quality is top-notch. Being a UI/UX designer myself, I'm quite picky about aesthetics, and this t-shirt definitely gets a thumbs up from me.",
-      date: "August 15, 2023"
-    },
-    {
-      id: 3,
-      name: "Ethan R.",
-      verified: true,
-      rating: 3.5,
-      text: "This t-shirt is a must-have for anyone who appreciates good design. The minimalistic yet stylish pattern caught my eye, and the fit is perfect. I can see the designer's touch in every aspect of this shirt.",
-      date: "August 16, 2023"
-    },
-    {
-      id: 4,
-      name: "Olivia P.",
-      verified: true,
-      rating: 4,
-      text: "As a UI/UX enthusiast, I value simplicity and functionality. This t-shirt not only represents those principles but also feels great to wear. It's evident that the designer poured their creativity into making this t-shirt stand out.",
-      date: "August 17, 2023"
-    },
-    {
-      id: 5,
-      name: "Liam K.",
-      verified: true,
-      rating: 4,
-      text: "This t-shirt is a fusion of comfort and creativity. The fabric is soft, and the design speaks volumes about the designer's skill. It's like wearing a piece of art that reflects my passion for both design and fashion.",
-      date: "August 18, 2023"
-    },
-    {
-      id: 6,
-      name: "Ava H.",
-      verified: true,
-      rating: 4.5,
-      text: "I'm not just wearing a t-shirt; I'm wearing a piece of design philosophy. The intricate details and thoughtful layout of the design make this shirt a conversation starter.",
-      date: "August 19, 2023"
-    }
-  ];
+  useEffect(() => {
+    const fetchReviews = async (productId: number) => {
+      try {
+        const response = await fetch(`http://localhost:5155/ProductRatings/GetAll?productId=${productId}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch reviews');
+        }
+        const data = await response.json();
+        setReviews(data);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Unknown error occurred');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchReviews(productId);
+  }, [productId]);
 
   const renderStars = (rating: number) => {
     const stars = [];
@@ -89,6 +68,39 @@ export default function Reviews() {
 
     return stars;
   };
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
+
+  if (isLoading) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+        <div className="text-center">Loading reviews...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+        <div className="text-center text-red-500">Error: {error}</div>
+      </div>
+    );
+  }
+
+  if (reviews.length === 0) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+        <div className="text-center">No reviews yet</div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
@@ -142,18 +154,18 @@ export default function Reviews() {
             </div>
 
             <div className="flex items-center gap-2 mb-3 sm:mb-4">
-              <span className="font-satoshi font-semibold text-black text-sm sm:text-base">{review.name}</span>
-              {review.verified && (
-                <CheckCircle className="w-4 h-4 text-green-500" />
-              )}
+              <span className="font-satoshi font-semibold text-black text-sm sm:text-base">
+                User {review.userId}
+              </span>
+              <CheckCircle className="w-4 h-4 text-green-500" />
             </div>
 
             <p className="text-gray-600 mb-3 sm:mb-4 font-satoshi leading-relaxed text-sm sm:text-base">
-              "{review.text}"
+              "{review.reviewText}"
             </p>
 
             <div className="text-gray-500 font-satoshi text-xs sm:text-sm">
-              Posted on {review.date}
+              Posted on {formatDate(review.createdAt)}
             </div>
           </div>
         ))}

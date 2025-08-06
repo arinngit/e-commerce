@@ -101,13 +101,13 @@ export default function MaybeLike() {
               <div className="group cursor-pointer">
                 <div className="bg-gray-100 rounded-2xl aspect-square mb-4 overflow-hidden relative">
                   <img
-                    src={product.imageUrl}
-                    alt={product.productName}
+                    src={product.photoUrl}
+                    alt={product.name}
                     className="w-full h-full object-cover object-center rounded-2xl transform transition-transform duration-300 group-hover:scale-105"
                     loading="lazy"
                     decoding="async"
                   />
-                  {!product.imageUrl && (
+                  {!product.photoUrl && (
                     <div className="absolute inset-0 bg-gray-200 flex items-center justify-center">
                       <span className="text-gray-500">No image</span>
                     </div>
@@ -116,7 +116,7 @@ export default function MaybeLike() {
 
                 <div className="space-y-2">
                   <h3 className="font-satoshi font-black text-lg text-black group-hover:text-gray-600 transition-colors">
-                    {product.productName}
+                    {product.name}
                   </h3>
 
                   <div className="flex items-center gap-2">
@@ -128,7 +128,7 @@ export default function MaybeLike() {
 
                   <div className="flex items-center gap-2">
                     <span className="text-xl font-satoshi font-bold text-black">
-                      ${product.productPrice}
+                      ${product.price}
                     </span>
                   </div>
                 </div>
