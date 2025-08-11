@@ -1,0 +1,90 @@
+{
+  "header": {
+    "title_line1": "FIND CLOTHES",
+    "title_line2": "THAT MATCHES",
+    "title_line3": "YOUR STYLE",
+    "description": "Browse through our diverse range of meticulously crafted garments, designed to bring out your individuality and cater to your sense of style.",
+    "shop_now": "Shop Now",
+    "stats": {
+      "brands_number": "200+",
+      "brands_label": "International Brands",
+      "products_number": "2,000+",
+      "products_label": "High-Quality Products",
+      "customers_number": "30,000+",
+      "customers_label": "Happy Customers"
+    },
+    "image_alt": "Man in fashion"
+  },
+  "navbar": {
+    "shop": "Shop",
+    "on_sale": "On Sale",
+    "new_arrivals": "New Arrivals",
+    "brands": "Brands",
+    "search_placeholder": "Search for products...",
+    "cart": "Cart",
+    "sign_in": "Sign In",
+    "dashboard": "Dashboard",
+    "logout": "Logout",
+    "locale_label": "Language"
+  },
+  "arrivals": {
+    "new_arrivals": "NEW ARRIVALS",
+    "load_error": "Failed to load products. Please try again later.",
+    "no_image": "No image",
+    "show_less": "Show Less",
+    "view_all": "View All"
+  },
+  "customers": {
+    "our_customers": "OUR HAPPY CUSTOMERS",
+    "no_review": "No reviews available"
+  },
+  "footer": {
+    "newsletter": {
+      "titleLine1": "STAY UP TO DATE ABOUT",
+      "titleLine2": "OUR LATEST OFFERS",
+      "placeholder": "Enter your email address",
+      "button": "Subscribe to Newsletter"
+    },
+    "aboutSection": {
+      "title": "SHOP",
+      "description": "We have clothes that suit your style and which you're proud to wear. From women to men."
+    },
+    "social": {
+      "twitter": "Twitter",
+      "facebook": "Facebook",
+      "instagram": "Instagram",
+      "github": "Github"
+    },
+    "links": {
+      "company": {
+        "title": "COMPANY",
+        "about": "About",
+        "features": "Features",
+        "works": "Works",
+        "career": "Career"
+      },
+      "help": {
+        "title": "HELP",
+        "support": "Customer Support",
+        "delivery": "Delivery Details",
+        "terms": "Terms & Conditions",
+        "privacy": "Privacy Policy"
+      },
+      "faq": {
+        "title": "FAQ",
+        "account": "Account",
+        "deliveries": "Manage Deliveries",
+        "orders": "Orders",
+        "payments": "Payments"
+      },
+      "resources": {
+        "title": "RESOURCES",
+        "ebooks": "Free eBooks",
+        "tutorial": "Development Tutorial",
+        "blog": "How to - Blog",
+        "youtube": "YouTube Playlist"
+      }
+    },
+    "copyright": "Shop.co © 2000-2023, All Rights Reserved"
+  }
+}

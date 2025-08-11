@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { authService } from "../../../../../services/auth";
+import { authService } from "../../../../../../services/auth";
 
 export default function SignUp() {
   const [email, setEmail] = useState("");

@@ -1,0 +1,90 @@
+{
+  "header": {
+    "title_line1": "あなたのスタイルに",
+    "title_line2": "マッチする服を",
+    "title_line3": "見つけましょう",
+    "description": "個性を引き出し、あなたのスタイルに合わせてデザインされた、多様なハンドクラフトの服を閲覧してください。",
+    "shop_now": "今すぐ購入",
+    "stats": {
+      "brands_number": "200以上",
+      "brands_label": "国際ブランド",
+      "products_number": "2,000以上",
+      "products_label": "高品質な商品",
+      "customers_number": "30,000以上",
+      "customers_label": "満足した顧客"
+    },
+    "image_alt": "おしゃれな男性"
+  },
+  "navbar": {
+    "shop": "ショップ",
+    "on_sale": "セール中",
+    "new_arrivals": "新着商品",
+    "brands": "ブランド",
+    "search_placeholder": "商品を検索...",
+    "cart": "カート",
+    "sign_in": "サインイン",
+    "dashboard": "ダッシュボード",
+    "logout": "ログアウト",
+    "locale_label": "言語"
+  },
+  "arrivals": {
+    "new_arrivals": "新着商品",
+    "load_error": "商品の読み込みに失敗しました。後でもう一度お試しください。",
+    "no_image": "画像なし",
+    "show_less": "折りたたむ",
+    "view_all": "すべて見る"
+  },
+  "customers": {
+    "our_customers": "私たちの満足した顧客",
+    "no_review": "レビューはありません"
+  },
+  "footer": {
+    "newsletter": {
+      "titleLine1": "最新情報をいち早く",
+      "titleLine2": "お得な情報を受け取る",
+      "placeholder": "メールアドレスを入力",
+      "button": "ニュースレターを購読"
+    },
+    "aboutSection": {
+      "title": "ショップ",
+      "description": "あなたのスタイルに合った、着るのが誇らしくなるような服を取り揃えています。女性用から男性用まで。"
+    },
+    "social": {
+      "twitter": "ツイッター",
+      "facebook": "フェイスブック",
+      "instagram": "インスタグラム",
+      "github": "ギットハブ"
+    },
+    "links": {
+      "company": {
+        "title": "会社情報",
+        "about": "私たちについて",
+        "features": "特徴",
+        "works": "実績",
+        "career": "採用情報"
+      },
+      "help": {
+        "title": "ヘルプ",
+        "support": "カスタマーサポート",
+        "delivery": "配送詳細",
+        "terms": "利用規約",
+        "privacy": "プライバシーポリシー"
+      },
+      "faq": {
+        "title": "よくある質問",
+        "account": "アカウント",
+        "deliveries": "配送管理",
+        "orders": "注文",
+        "payments": "支払い"
+      },
+      "resources": {
+        "title": "リソース",
+        "ebooks": "無料電子書籍",
+        "tutorial": "開発チュートリアル",
+        "blog": "ハウツーブログ",
+        "youtube": "YouTubeプレイリスト"
+      }
+    },
+    "copyright": "Shop.co © 2000-2023, 全著作権所有"
+  }
+}

@@ -1,6 +1,7 @@
 'use client'
 
 import { ChevronLeft, ChevronRight, Check } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useState, useEffect } from "react";
 
 const renderStars = (rating: number) =>
@@ -16,6 +17,7 @@ export default function HappyCustomers() {
   const [isMobile, setIsMobile] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const t = useTranslations("customers");
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -71,7 +73,7 @@ export default function HappyCustomers() {
   if (reviews.length === 0) {
     return (
       <section className="max-w-7xl mx-auto px-6 py-12">
-        <div className="text-center">No reviews available</div>
+        <div className="text-center">{t("no_review")}</div>
       </section>
     );
   }
@@ -79,7 +81,7 @@ export default function HappyCustomers() {
   return (
     <section className="max-w-7xl mx-auto px-6 py-12">
       <div className="flex justify-between items-center mb-8">
-        <h2 className="text-4xl font-bold text-black">OUR HAPPY CUSTOMERS</h2>
+        <h2 className="text-4xl font-bold text-black">{t("our_customers")}</h2>
         {reviews.length > 1 && (
           <div className="flex gap-2">
             <button
