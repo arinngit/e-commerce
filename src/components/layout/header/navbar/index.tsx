@@ -1,11 +1,22 @@
 "use client";
 
-import { ChevronDown, Menu, Search, ShoppingCart, User, X } from "lucide-react";
+import {
+  ChevronDown,
+  LayoutDashboard,
+  Menu,
+  Search,
+  ShoppingCart,
+  User,
+  X,
+} from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useProductsStore } from "../../../../../store/products";
 import { Product } from "@/types/product";
+import { useCartStore } from "../../../../../store/carts";
+import { useAuthStore } from "../../../../../store/auth";
+import SignOutButton from "@/components/ui/sign-out-button";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -16,6 +27,8 @@ export default function Navbar() {
   const router = useRouter();
 
   const { products, fetchProducts, searchProducts } = useProductsStore();
+  const { items } = useCartStore();
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
   useEffect(() => {
     fetchProducts();
@@ -30,8 +43,7 @@ export default function Navbar() {
     const results = products.filter((product) =>
       product.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
-    
-    // @ts-ignore
+
     setSearchResults(results);
   }, [searchQuery, products]);
 
@@ -69,7 +81,10 @@ export default function Navbar() {
 
         <div className="hidden md:flex items-center space-x-8">
           <div className="flex items-center space-x-1 cursor-pointer hover:text-black">
-            <Link href='/shop' className="text-black font-satoshi hover:text-gray-600">
+            <Link
+              href="/shop"
+              className="text-black font-satoshi hover:text-gray-600"
+            >
               Shop
             </Link>
           </div>
@@ -149,18 +164,38 @@ export default function Navbar() {
             )}
           </button>
 
-          <button className="hidden md:inline-flex p-2 hover:bg-gray-100 rounded-full">
+          <button
+            onClick={() => router.push("/cart")}
+            className="hidden md:inline-flex p-2 hover:bg-gray-100 rounded-full relative"
+          >
             <ShoppingCart className="w-6 h-6 text-gray-700" />
+            {items.length > 0 && (
+              <span className="absolute -top-1 -right-1 bg-black text-white text-xs font-satoshi font-medium rounded-full w-5 h-5 flex justify-center">
+                {items.length}
+              </span>
+            )}
           </button>
-          <button className="hidden md:inline-flex p-2 hover:bg-gray-100 rounded-full">
-            <User className="w-6 h-6 text-gray-700" />
-          </button>
+          {isAuthenticated ? (
+            <>
+              <Link href="/dashboard" className="hover:text-gray-600">
+                <LayoutDashboard className="w-6 h-6" />
+              </Link>
+              <SignOutButton />
+            </>
+          ) : (
+            <button
+              onClick={() => router.push("/auth/sign-in")}
+              className="hidden md:inline-flex p-2 hover:bg-gray-100 rounded-full"
+            >
+              <User className="w-6 h-6 text-gray-700" />
+            </button>
+          )}
         </div>
       </div>
 
       {menuOpen && (
         <div className="md:hidden mt-4 space-y-4 px-2">
-          <Link href="#" className="block text-black hover:text-gray-600">
+          <Link href="/shop" className="block text-black hover:text-gray-600">
             Shop
           </Link>
           <Link href="#" className="block text-black hover:text-gray-600">
@@ -212,12 +247,29 @@ export default function Navbar() {
             )}
           </div>
           <div className="flex space-x-4 pt-2">
-            <button className="p-2 hover:bg-gray-100 rounded-full">
+            <button
+              onClick={() => router.push("/cart")}
+              className="md:inline-flex p-2 hover:bg-gray-100 rounded-full relative"
+            >
               <ShoppingCart className="w-6 h-6 text-gray-700" />
+              {items.length > 0 && (
+                <span className="absolute -top-1 -right-1 bg-black text-white text-xs font-satoshi font-medium rounded-full w-5 h-5 flex justify-center">
+                  {items.length}
+                </span>
+              )}
             </button>
-            <button className="p-2 hover:bg-gray-100 rounded-full">
-              <User className="w-6 h-6 text-gray-700" />
-            </button>
+            {isAuthenticated ? (
+              <>
+                
+              </>
+            ) : (
+              <button
+                onClick={() => router.push("/auth/sign-in")}
+                className="p-2 hover:bg-gray-100 rounded-full"
+              >
+                <User className="w-6 h-6 text-gray-700" />
+              </button>
+            )}
           </div>
         </div>
       )}

@@ -1,30 +1,51 @@
 "use client";
-import { Product, ProductColor } from "@/types/product";
+import { Product, ProductColor, ProductSize } from "@/types/product";
 import { Star, ChevronRight, Plus, Minus, Check } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import { useCartStore } from "../../../store/carts"
 
 interface ProductDetailsProps {
   product: Product;
 }
 
 export default function Details({ product }: ProductDetailsProps) {
+  // Обработка цветов
   const availableColors: ProductColor[] = product.colors?.length
-  ? product.colors
+    ? product.colors
+    : [
+        {
+          colorId: 0,
+          colorName: "Default",
+          hexCode: "#808080",
+        },
+      ];
+
+  const availableSizes: ProductSize[] = product.sizes?.length
+  ? product.sizes
   : [
-      {
-        colorId: 0,
-        colorName: "Default",
-        hexCode: "#808080"
-      }
+      { sizeId: 1, sizeName: "S", quantity: 0 },
+      { sizeId: 2, sizeName: "M", quantity: 0 },
+      { sizeId: 3, sizeName: "L", quantity: 0 },
+      { sizeId: 4, sizeName: "XL", quantity: 0 },
     ];
 
-  const availableSizes = product.sizes?.map(size => size.sizeName) || 
-    ["S", "M", "L", "XL"];
-
   const [selectedColor, setSelectedColor] = useState<number>(0);
-  const [selectedSize, setSelectedSize] = useState<string>(availableSizes[0]);
+  const [selectedSize, setSelectedSize] = useState<ProductSize>(availableSizes[0]);
   const [quantity, setQuantity] = useState<number>(1);
+  const addItem = useCartStore((state) => state.addItem);
+
+  const handleAddToCart = () => {
+    const colorName = availableColors[selectedColor]?.colorName || "Default";
+
+    addItem({
+      name: product.name,
+      size: selectedSize.sizeName,
+      color: colorName,
+      price: product.price,
+      image: product.photoUrl || "",
+    });
+  };
 
   const renderStars = (rating: number = 0) => {
     const stars = [];
@@ -124,7 +145,7 @@ export default function Details({ product }: ProductDetailsProps) {
 
                     return (
                       <button
-                        key={index}
+                        key={color.colorId}
                         onClick={() => setSelectedColor(index)}
                         className={`w-10 h-10 rounded-full flex items-center justify-center border ${
                           isLightColor
@@ -153,18 +174,18 @@ export default function Details({ product }: ProductDetailsProps) {
           <hr className="border-gray-200" />
           <div className="space-y-4">
             <h3 className="text-gray-600 font-satoshi">Choose Size</h3>
-            <div className="flex gap-3">
-              {availableSizes.map((size: string) => (
+            <div className="flex flex-wrap gap-3">
+              {availableSizes.map((size: ProductSize) => (
                 <button
-                  key={size}
+                  key={size.sizeId}
                   onClick={() => setSelectedSize(size)}
                   className={`px-6 py-3 rounded-full font-satoshi border transition-colors ${
-                    selectedSize === size
+                    selectedSize.sizeId === size.sizeId
                       ? "bg-black text-white border-black"
                       : "bg-gray-100 text-gray-700 border-gray-200 hover:border-gray-300"
                   }`}
                 >
-                  {size}
+                  {size.sizeName}
                 </button>
               ))}
             </div>
@@ -190,7 +211,10 @@ export default function Details({ product }: ProductDetailsProps) {
               </button>
             </div>
 
-            <button className="flex-1 bg-black text-white py-4 px-8 rounded-full font-satoshi hover:bg-gray-800 transition-colors">
+            <button
+              onClick={handleAddToCart}
+              className="flex-1 bg-black text-white py-4 px-8 rounded-full font-satoshi hover:bg-gray-800 transition-colors"
+            >
               Add to Cart
             </button>
           </div>

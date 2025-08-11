@@ -85,7 +85,6 @@ export default function Main() {
     setPriceRange([0, 500]);
   };
 
-  // Компонент фильтров для переиспользования
   const FiltersContent = ({ isMobile = false }) => (
     <div className="space-y-6">
       <div className="space-y-4">
@@ -197,7 +196,6 @@ export default function Main() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
-      {/* Breadcrumb */}
       <nav className="flex items-center space-x-2 text-gray-500 mb-8">
         <Link href="/">
           <span className="hover:text-gray-700 cursor-pointer font-satoshi">
@@ -208,7 +206,6 @@ export default function Main() {
         <span className="text-black font-satoshi font-medium">Shop</span>
       </nav>
 
-      {/* Mobile Header */}
       <div className="md:hidden flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold font-satoshi">Shop</h1>
         <button
@@ -220,7 +217,6 @@ export default function Main() {
         </button>
       </div>
 
-      {/* Mobile Sort */}
       <div className="md:hidden mb-6">
         <div className="flex items-center justify-between">
           <span className="text-gray-600 font-satoshi text-sm">
@@ -242,7 +238,6 @@ export default function Main() {
       </div>
 
       <div className="flex gap-8">
-        {/* Desktop Filters */}
         <div className="hidden md:block w-80 space-y-6">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-bold font-satoshi">Filters</h2>
@@ -251,9 +246,7 @@ export default function Main() {
           <FiltersContent />
         </div>
 
-        {/* Products Grid */}
         <div className="flex-1">
-          {/* Desktop Header */}
           <div className="hidden md:flex items-center justify-between mb-8">
             <h1 className="text-3xl font-bold font-satoshi">Shop</h1>
             <div className="flex items-center gap-4">
@@ -275,7 +268,6 @@ export default function Main() {
             </div>
           </div>
 
-          {/* Products Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {sortedProducts.map((product) => (
               <Link
@@ -322,7 +314,6 @@ export default function Main() {
             ))}
           </div>
 
-          {/* No Products Message */}
           {filteredProducts.length === 0 && (
             <div className="text-center py-12">
               <p className="text-gray-500 text-lg font-satoshi">
@@ -333,19 +324,15 @@ export default function Main() {
         </div>
       </div>
 
-      {/* Mobile Filters Modal */}
       <Dialog
         open={isFiltersOpen}
         onClose={() => setIsFiltersOpen(false)}
         className="relative z-50 md:hidden"
       >
-        {/* Backdrop */}
         <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
         
-        {/* Modal */}
         <div className="fixed inset-0 flex items-end">
           <div className="w-full bg-white rounded-t-2xl p-6 max-h-[90vh] overflow-y-auto">
-            {/* Modal Header */}
             <div className="flex justify-between items-center mb-6 pb-4 border-b border-gray-200">
               <h2 className="text-xl font-bold font-satoshi">Filters</h2>
               <button
@@ -356,10 +343,8 @@ export default function Main() {
               </button>
             </div>
 
-            {/* Filters Content */}
             <FiltersContent isMobile={true} />
 
-            {/* Apply Button */}
             <div className="mt-6 pt-4 border-t border-gray-200">
               <button
                 className="w-full bg-black text-white py-3 rounded-full font-satoshi font-medium hover:bg-gray-800 transition-colors"
