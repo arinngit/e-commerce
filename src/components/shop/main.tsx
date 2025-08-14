@@ -6,7 +6,8 @@ import Link from "next/link";
 import { Product } from "@/types/product";
 import { Dialog } from "@headlessui/react";
 import { useTranslations } from "next-intl";
-import { DualRangeSlider } from "../ui/slider";
+import { Slider } from "../ui/slider";
+import { debounce } from "lodash";
 
 export default function Main() {
   const t = useTranslations("shopPage");
@@ -36,6 +37,10 @@ export default function Main() {
     { name: "Cyan", color: "bg-cyan-400" },
     { name: "Magenta", color: "bg-[#FF00FF]" },
   ];
+
+  const handlePriceChange = debounce((value: number[]) => {
+    setPriceRange(value as [number, number]);
+  }, 50);
 
   const getProductColors = (product: Product): string[] => {
     return product.colors?.map((c) => c.colorName) || [];
@@ -127,13 +132,12 @@ export default function Main() {
           <span className="font-satoshi">${priceRange[0]}</span>
           <span className="font-satoshi">${priceRange[1]}</span>
         </div>
-        <DualRangeSlider
+        <Slider
+          defaultValue={priceRange}
           min={0}
           max={500}
-          step="auto"
-          value={priceRange}
-          onChange={setPriceRange}
-          className="py-2"
+          step={1}
+          onValueChange={handlePriceChange}
         />
       </div>
 
