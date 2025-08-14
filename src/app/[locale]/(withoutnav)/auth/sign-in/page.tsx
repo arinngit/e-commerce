@@ -1,8 +1,16 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "../../../../../../store/auth";
 import { authService } from "../../../../../../services/auth";
+import "/node_modules/flag-icons/css/flag-icons.min.css";
+import { useTranslations } from "next-intl";
+
+const locales = [
+  { code: "en", label: "EN", flagCode: "us" },
+  { code: "ru", label: "RU", flagCode: "ru" },
+  { code: "ja", label: "JP", flagCode: "jp" },
+];
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
@@ -12,6 +20,23 @@ export default function SignIn() {
   const [activeNav, setActiveNav] = useState("login");
   const router = useRouter();
   const login = useAuthStore((state) => state.login);
+  const t = useTranslations("login");
+
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function onClickOutside(event: MouseEvent) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", onClickOutside);
+    return () => document.removeEventListener("mousedown", onClickOutside);
+  }, []);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -36,9 +61,21 @@ export default function SignIn() {
   };
 
   const navItems = [
-    { id: "login", label: "Login" },
-    { id: "register", label: "Register" },
+    { id: "login", label: t("login") },
+    { id: "register", label: t("register") },
   ];
+
+  const pathname =
+    typeof window !== "undefined" ? window.location.pathname : "";
+  const currentLocaleCode = pathname.split("/")[1] || "en";
+  const currentLocale =
+    locales.find((l) => l.code === currentLocaleCode) || locales[0];
+
+  const switchLocale = (code: string) => {
+    const newPath = pathname.replace(/^\/(en|ru|ja)/, `/${code}`);
+    router.push(newPath);
+    setDropdownOpen(false);
+  };
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row bg-black overflow-hidden">
@@ -77,11 +114,10 @@ export default function SignIn() {
 
           <div className="relative z-10 flex flex-col justify-center items-center text-center h-full px-8">
             <h1 className="text-5xl font-bold text-white drop-shadow-lg font-satoshi">
-              Welcome
+              {t("title")}
             </h1>
             <p className="mt-4 text-lg text-white max-w-md font-satoshi">
-              Log in to continue your journey with us and explore more
-              opportunities.
+              {t("welcomeMessage")}
             </p>
           </div>
         </div>
@@ -92,10 +128,10 @@ export default function SignIn() {
           <div className="bg-black backdrop-blur-xl border border-gray-700/30 rounded-2xl shadow-2xl p-6 md:p-8">
             <div className="text-center mb-6 md:mb-8">
               <h2 className="text-3xl md:text-4xl font-satoshi bg-gradient-to-r from-white via-cyan-200 to-white bg-clip-text text-transparent mb-2">
-                Welcome
+                {t("title")}
               </h2>
               <p className="text-gray-400 text-sm font-satoshi">
-                Sign in to your account
+                {t("subtitle")}
               </p>
             </div>
 
@@ -113,7 +149,7 @@ export default function SignIn() {
                   htmlFor="email"
                   className="block text-sm font-satoshi text-gray-300"
                 >
-                  Email Address
+                  {t("emailLabel")}
                 </label>
                 <div className="relative group">
                   <div className="absolute -inset-0.5 rounded-lg opacity-100 bg-white animate-pulse group-focus-within:hidden"></div>
@@ -125,7 +161,7 @@ export default function SignIn() {
                     onChange={(e) => setEmail(e.target.value)}
                     required
                     className="relative w-full px-3 py-2 md:px-4 md:py-3 bg-gray-900 border border-gray-600/50 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-0 focus:border-transparent transition-all duration-300 font-satoshi"
-                    placeholder="Enter your email"
+                    placeholder={t("emailPlaceholder")}
                   />
                 </div>
               </div>
@@ -135,7 +171,7 @@ export default function SignIn() {
                   htmlFor="password"
                   className="block text-sm font-satoshi text-gray-300"
                 >
-                  Password
+                  {t("passwordLabel")}
                 </label>
                 <div className="relative group">
                   <div className="absolute -inset-0.5 rounded-lg opacity-100 bg-white animate-pulse group-focus-within:hidden"></div>
@@ -147,7 +183,7 @@ export default function SignIn() {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                     className="relative w-full px-3 py-2 md:px-4 md:py-3 bg-gray-900 border border-gray-600/50 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-0 focus:border-transparent transition-all duration-300 font-satoshi"
-                    placeholder="Enter your password"
+                    placeholder={t("passwordPlaceholder")}
                   />
                 </div>
               </div>
@@ -162,10 +198,10 @@ export default function SignIn() {
                   {isLoading ? (
                     <div className="flex items-center justify-center space-x-2">
                       <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                      <span>Signing in...</span>
+                      <span>{t("signingIn")}</span>
                     </div>
                   ) : (
-                    "Sign In"
+                    <span>{t("signInButton")}</span>
                   )}
                 </span>
               </button>
@@ -175,7 +211,7 @@ export default function SignIn() {
                 onClick={() => router.push("/")}
                 className="w-full py-2 md:py-3 px-4 md:px-6 border border-gray-600/50 rounded-lg text-gray-300 font-satoshi hover:bg-gray-800/50 hover:border-gray-500 transition-all duration-300"
               >
-                Back to Home
+                <span>{t("backToHome")}</span>
               </button>
             </form>
 
@@ -206,6 +242,44 @@ export default function SignIn() {
             </div>
           </div>
         </div>
+      </div>
+      <div
+        ref={dropdownRef}
+        className="fixed right-4 bottom-4 z-50 flex flex-col items-center"
+      >
+        <button
+          onClick={() => setDropdownOpen((o) => !o)}
+          className="fi fi-${currentLocale.flagCode} text-3xl cursor-pointer"
+          aria-haspopup="listbox"
+          aria-expanded={dropdownOpen}
+          style={{ width: 48, height: 48 }}
+        >
+          <span
+            className={`fi fi-${currentLocale.flagCode} text-3xl right-1`}
+          />
+        </button>
+
+        {dropdownOpen && (
+          <ul
+            role="listbox"
+            className="mb-2 flex flex-col space-y-1"
+            style={{ minWidth: 48 }}
+          >
+            {locales
+              .filter((l) => l.code !== currentLocale.code)
+              .map(({ code, flagCode }) => (
+                <li
+                  key={code}
+                  role="option"
+                  onClick={() => switchLocale(code)}
+                  className="cursor-pointer hover:bg-gray-100 rounded flex justify-center"
+                  style={{ width: 48, height: 48 }}
+                >
+                  <span className={`fi fi-${flagCode} text-3xl`} />
+                </li>
+              ))}
+          </ul>
+        )}
       </div>
     </div>
   );

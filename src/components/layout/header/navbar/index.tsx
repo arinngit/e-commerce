@@ -18,11 +18,12 @@ import { useAuthStore } from "../../../../../store/auth";
 import SignOutButton from "@/components/ui/sign-out-button";
 import { useRouter, usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
+import "/node_modules/flag-icons/css/flag-icons.min.css";
 
 const locales = [
-  { code: "en", label: "EN", flag: "🇺🇸" },
-  { code: "ru", label: "RU", flag: "🇷🇺" },
-  { code: "ja", label: "JP", flag: "🇯🇵" },
+  { code: "en", label: "EN", flagCode: "us" },
+  { code: "ru", label: "RU", flagCode: "ru" },
+  { code: "ja", label: "JP", flagCode: "jp" },
 ];
 
 export default function Navbar() {
@@ -35,6 +36,7 @@ export default function Navbar() {
   const pathname = usePathname();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const [selected, setSelected] = useState("");
 
   const currentLocaleCode = pathname.split("/")[1] || "en";
   const currentLocale =
@@ -122,7 +124,7 @@ export default function Navbar() {
             {t("shop")}
           </Link>
           <Link
-            href="#"
+            href="/about"
             className="text-black font-satoshi hover:text-gray-600"
           >
             {t("on_sale")}
@@ -144,11 +146,11 @@ export default function Navbar() {
         <div className="relative hidden md:flex" ref={dropdownRef}>
           <button
             onClick={() => setDropdownOpen((open) => !open)}
-            className="flex items-center space-x-2 px-3 py-1 rounded border border-gray-300 hover:border-black cursor-pointer select-none"
+            className="flex items-center space-x-2 px-3 py-1 rounded border border-white bg-gray-300 hover:border-black cursor-pointer select-none"
             aria-haspopup="listbox"
             aria-expanded={dropdownOpen}
           >
-            <span className="text-lg">{currentLocale.flag}</span>
+            <span className={`fi fi-${currentLocale.flagCode} text-lg`}></span>
             <ChevronDown className="w-4 h-4 text-gray-600" />
           </button>
 
@@ -157,7 +159,7 @@ export default function Navbar() {
               role="listbox"
               className="absolute right-0 mt-11 w-17 bg-white border border-gray-300 rounded shadow-lg z-50"
             >
-              {locales.map(({ code, label, flag }) => (
+              {locales.map(({ code, label, flagCode }) => (
                 <li
                   key={code}
                   role="option"
@@ -166,10 +168,10 @@ export default function Navbar() {
                   className={`flex items-center space-x-2 px-2 py-2 cursor-pointer hover:bg-gray-100 ${
                     code === currentLocaleCode
                       ? "bg-gray-200 font-semibold"
-                      : ""
+                      : "bg-blue-100"
                   }`}
                 >
-                  <span className="text-lg">{flag}</span>
+                  <span className={`fi fi-${flagCode} text-lg`}></span>
                   <span className="font-satoshi">{label}</span>
                 </li>
               ))}
@@ -356,7 +358,7 @@ export default function Navbar() {
                 aria-haspopup="listbox"
                 aria-expanded={dropdownOpen}
               >
-                <span className="text-lg">{currentLocale.flag}</span>
+                <span className="text-lg">{currentLocale.flagCode}</span>
                 <ChevronDown className="w-4 h-4 text-gray-600" />
               </button>
 
@@ -365,7 +367,7 @@ export default function Navbar() {
                   role="listbox"
                   className="absolute right-0 mt-2 w-17 bg-white border border-gray-300 rounded shadow-lg z-50"
                 >
-                  {locales.map(({ code, label, flag }) => (
+                  {locales.map(({ code, label, flagCode }) => (
                     <li
                       key={code}
                       role="option"
@@ -373,11 +375,11 @@ export default function Navbar() {
                       onClick={() => switchLocale(code)}
                       className={`flex items-center space-x-2 px-2 py-2 cursor-pointer hover:bg-gray-100 ${
                         code === currentLocaleCode
-                          ? "bg-gray-200 font-semibold"
+                          ? "bg-gray-100 font-semibold"
                           : ""
                       }`}
                     >
-                      <span className="text-lg">{flag}</span>
+                      <span className={`fi fi-${flagCode} text-lg`}></span>
                       <span className="font-satoshi">{label}</span>
                     </li>
                   ))}

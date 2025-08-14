@@ -1,7 +1,15 @@
 "use client";
-import { useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { authService } from "../../../../../../services/auth";
+import "/node_modules/flag-icons/css/flag-icons.min.css";
+import { useTranslations } from "next-intl";
+
+const locales = [
+  { code: "en", label: "EN", flagCode: "us" },
+  { code: "ru", label: "RU", flagCode: "ru" },
+  { code: "ja", label: "JP", flagCode: "jp" },
+];
 
 export default function SignUp() {
   const [email, setEmail] = useState("");
@@ -10,6 +18,23 @@ export default function SignUp() {
   const [isLoading, setIsLoading] = useState(false);
   const [activeNav, setActiveNav] = useState("register");
   const router = useRouter();
+  const t = useTranslations("register");
+
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function onClickOutside(event: MouseEvent) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", onClickOutside);
+    return () => document.removeEventListener("mousedown", onClickOutside);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,9 +67,21 @@ export default function SignUp() {
   };
 
   const navItems = [
-    { id: "login", label: "Login" },
-    { id: "register", label: "Register" },
+    { id: "login", label: t("login") },
+    { id: "register", label: t("register") },
   ];
+
+  const pathname =
+    typeof window !== "undefined" ? window.location.pathname : "";
+  const currentLocaleCode = pathname.split("/")[1] || "en";
+  const currentLocale =
+    locales.find((l) => l.code === currentLocaleCode) || locales[0];
+
+  const switchLocale = (code: string) => {
+    const newPath = pathname.replace(/^\/(en|ru|ja)/, `/${code}`);
+    router.push(newPath);
+    setDropdownOpen(false);
+  };
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row bg-black overflow-hidden">
@@ -62,10 +99,10 @@ export default function SignUp() {
           <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/20 to-black/60"></div>
           <div className="relative z-10 flex flex-col justify-center items-center text-center h-full px-8">
             <h1 className="text-5xl font-bold text-white drop-shadow-lg font-satoshi">
-              Welcome
+              {t("title")}
             </h1>
             <p className="mt-4 text-lg text-white max-w-md font-satoshi">
-              Register to join the community community
+              {t("welcomeMessage")}
             </p>
           </div>
         </div>
@@ -76,10 +113,10 @@ export default function SignUp() {
           <div className="bg-black backdrop-blur-xl border border-gray-700/30 rounded-2xl shadow-2xl p-6 md:p-8">
             <div className="text-center mb-6 md:mb-8">
               <h2 className="text-3xl md:text-4xl font-satoshi bg-gradient-to-r from-white via-cyan-200 to-white bg-clip-text text-transparent mb-2">
-                Registration
+                {t("title")}
               </h2>
               <p className="text-gray-400 text-sm font-satoshi">
-                Create a new account
+                {t("subtitle")}
               </p>
             </div>
 
@@ -97,7 +134,7 @@ export default function SignUp() {
                   htmlFor="email"
                   className="block text-sm font-satoshi text-gray-300"
                 >
-                  Email
+                  {t("emailLabel")}
                 </label>
                 <div className="relative group">
                   <div className="absolute -inset-0.5 rounded-lg opacity-0 group-focus-within:opacity-100 transition-opacity duration-300">
@@ -110,7 +147,7 @@ export default function SignUp() {
                     onChange={(e) => setEmail(e.target.value)}
                     required
                     className="relative w-full px-3 py-2 md:px-4 md:py-3 bg-gray-900 border border-gray-600/50 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-0 focus:border-transparent transition-all duration-300 font-satoshi"
-                    placeholder="Введите ваш email"
+                    placeholder={t("emailPlaceholder")}
                   />
                 </div>
               </div>
@@ -120,7 +157,7 @@ export default function SignUp() {
                   htmlFor="password"
                   className="block text-sm font-satoshi text-gray-300"
                 >
-                  Password
+                  {t("passwordLabel")}
                 </label>
                 <div className="relative group">
                   <div className="absolute -inset-0.5 rounded-lg opacity-0 group-focus-within:opacity-100 transition-opacity duration-300">
@@ -133,7 +170,7 @@ export default function SignUp() {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                     className="relative w-full px-3 py-2 md:px-4 md:py-3 bg-gray-900 border border-gray-600/50 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-0 focus:border-transparent transition-all duration-300 font-satoshi"
-                    placeholder="Придумайте пароль"
+                    placeholder={t("passwordPlaceholder")}
                     minLength={6}
                   />
                 </div>
@@ -149,10 +186,10 @@ export default function SignUp() {
                   {isLoading ? (
                     <div className="flex items-center justify-center space-x-2">
                       <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                      <span>Register...</span>
+                      <span>{t("registering")}</span>
                     </div>
                   ) : (
-                    "Register"
+                    <span>{t("registerButton")}</span>
                   )}
                 </span>
               </button>
@@ -162,7 +199,7 @@ export default function SignUp() {
                 onClick={() => router.push("/")}
                 className="w-full py-2 md:py-3 px-4 md:px-6 border border-gray-600/50 rounded-lg text-gray-300 font-satoshi hover:bg-gray-800/50 hover:border-gray-500 transition-all duration-300"
               >
-                Back to Home
+                {t("backToHome")}
               </button>
 
               <div className="hidden md:block mt-6 md:mt-8 pt-4 md:pt-6 border-t border-gray-700/30">
@@ -193,6 +230,44 @@ export default function SignUp() {
             </form>
           </div>
         </div>
+      </div>
+      <div
+        ref={dropdownRef}
+        className="fixed right-4 bottom-4 z-50 flex flex-col items-center"
+      >
+        <button
+          onClick={() => setDropdownOpen((o) => !o)}
+          className="fi fi-${currentLocale.flagCode} text-3xl cursor-pointer"
+          aria-haspopup="listbox"
+          aria-expanded={dropdownOpen}
+          style={{ width: 48, height: 48 }}
+        >
+          <span
+            className={`fi fi-${currentLocale.flagCode} text-3xl right-1`}
+          />
+        </button>
+
+        {dropdownOpen && (
+          <ul
+            role="listbox"
+            className="mb-2 flex flex-col space-y-1"
+            style={{ minWidth: 48 }}
+          >
+            {locales
+              .filter((l) => l.code !== currentLocale.code)
+              .map(({ code, flagCode }) => (
+                <li
+                  key={code}
+                  role="option"
+                  onClick={() => switchLocale(code)}
+                  className="cursor-pointer hover:bg-gray-100 rounded flex justify-center"
+                  style={{ width: 48, height: 48 }}
+                >
+                  <span className={`fi fi-${flagCode} text-3xl`} />
+                </li>
+              ))}
+          </ul>
+        )}
       </div>
     </div>
   );

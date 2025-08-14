@@ -17,9 +17,9 @@
   },
   "navbar": {
     "shop": "Shop",
-    "on_sale": "On Sale",
-    "new_arrivals": "New Arrivals",
-    "brands": "Brands",
+    "on_sale": "About us",
+    "new_arrivals": "Contacts",
+    "brands": "Delivery",
     "search_placeholder": "Search for products...",
     "cart": "Cart",
     "sign_in": "Sign In",
@@ -86,5 +86,169 @@
       }
     },
     "copyright": "Shop.co © 2000-2023, All Rights Reserved"
+  },
+  "productDetails": {
+    "breadcrumbs": {
+      "home": "Home",
+      "shop": "Shop",
+      "category": "T-shirts"
+    },
+    "noImage": "No image",
+    "noDescription": "No description available",
+    "selectColors": "Select Colors",
+    "chooseSize": "Choose Size",
+    "addToCart": "Add to Cart",
+    "quantity": {
+      "decrease": "Decrease quantity",
+      "increase": "Increase quantity"
+    },
+    "defaultColor": "Default",
+    "sizes": {
+      "S": "S",
+      "M": "M",
+      "L": "L",
+      "XL": "XL"
+    }
+  },
+  "reviews": {
+    "title": "Rating & Reviews",
+    "allReviews": "All Reviews",
+    "noReviews": "No reviews yet",
+    "loading": "Loading reviews...",
+    "error": "Error: {error}",
+    "sortOptions": {
+      "latest": "Latest",
+      "oldest": "Oldest",
+      "highest": "Highest Rating",
+      "lowest": "Lowest Rating"
+    },
+    "userPrefix": "User",
+    "writeReview": "Write a Review",
+    "loadMore": "Load More Reviews",
+    "postedOn": "Posted on {date}",
+    "verified": "Verified"
+  },
+  "maybe_like": {
+    "loading": "LOADING",
+    "title": "YOU MIGHT ALSO LIKE",
+    "error": "Failed to load products. Please try again later.",
+    "no_image": "No image"
+  },
+  "aboutPage": {
+    "title": "ABOUT US",
+    "paragraphs": {
+      "p1": "We are a passionate team of creators, developers, and innovators dedicated to building meaningful digital experiences. Our mission is to deliver high-quality solutions that not only solve problems, but also inspire and connect people.",
+      "p2": "Since our founding, we've always believed in the power of design and technology to create change. Whether we're building platforms, designing interfaces, or crafting content — we do it with heart, skill, and purpose.",
+      "p3": "Our team combines years of experience with a forward-thinking mindset. We constantly challenge ourselves to stay on the cutting edge of modern technologies and trends to ensure our clients and users receive the best possible results.",
+      "p4": "Collaboration is at the core of our culture. We believe great ideas come from listening deeply, working openly, and thinking boldly. Each project is a new opportunity to grow, to learn, and to push boundaries.",
+      "p5": "We're not just building products — we're shaping the future of how people interact with the digital world. Thank you for being a part of our journey.",
+      "p6": "Every member of our team brings something unique to the table. From different backgrounds, disciplines, and experiences — we thrive on diversity and curiosity. This makes our creative process richer and more powerful.",
+      "p7": "We value transparency, integrity, and long-term relationships. We don't just deliver a product and walk away. We support, improve, and grow with our clients and their users. Success for us means creating something that lasts and leaves a positive mark.",
+      "p8": "In a fast-paced world where trends come and go, we remain focused on what truly matters: quality, user experience, and meaningful impact. We choose purpose over flash, and value over hype.",
+      "p9": "Our vision is simple — to build a digital space where users feel understood, empowered, and inspired. We believe that even the smallest detail can shape the biggest impression, and that's why we obsess over getting things right.",
+      "p10": "From day one, our goal has been to create with intention. Whether we're designing interfaces or writing lines of code, everything we do is guided by our mission to serve people through technology.",
+      "p11": "Thank you for taking the time to learn more about us. We're excited for what the future holds — and we'd be honored to explore it with you."
+    }
+  },
+  "shopPage": {
+    "title": "Shop",
+    "breadcrumbs": {
+      "home": "Home",
+      "shop": "Shop"
+    },
+    "filters": {
+      "title": "Filters",
+      "categories": "Categories",
+      "priceRange": "Price Range",
+      "colors": "Colors",
+      "sizes": "Size",
+      "reset": "Reset Filters",
+      "apply": "Apply Filters",
+      "showFilters": "Filters"
+    },
+    "sort": {
+      "label": "Sort by:",
+      "popular": "Most Popular",
+      "priceLow": "Price: Low to High",
+      "priceHigh": "Price: High to Low"
+    },
+    "productCount": "Showing {filtered} of {total} Products",
+    "noProducts": "No products found matching your filters",
+    "product": {
+      "sizes": "Sizes: {sizes}",
+      "colors": "Colors: {colors}",
+      "noSizes": "Not specified",
+      "noColors": "Not specified"
+    },
+    "loading": "Loading..."
+  },
+  "cartPage": {
+    "breadcrumbs": {
+      "home": "Home",
+      "cart": "Cart"
+    },
+    "title": "YOUR CART",
+    "empty": {
+      "message": "Your cart is empty",
+      "continueShopping": "Continue Shopping"
+    },
+    "item": {
+      "size": "Size",
+      "color": "Color",
+      "price": "Price"
+    },
+    "actions": {
+      "removeItem": "Remove item",
+      "clearCart": "Clear Shopping Cart",
+      "decrease": "Decrease quantity",
+      "increase": "Increase quantity"
+    },
+    "summary": {
+      "title": "Order Summary",
+      "subtotal": "Subtotal",
+      "deliveryFee": "Delivery Fee",
+      "total": "Total",
+      "promoCode": "Promo Code",
+      "promoPlaceholder": "Enter promo code",
+      "apply": "Apply",
+      "applying": "Applying...",
+      "checkout": "Proceed to Checkout"
+    },
+    "alerts": {
+      "promoApplied": "Promo code \"{{code}}\" applied!",
+      "checkout": "Proceeding to checkout!"
+    },
+    "noImage": "No Image"
+  },
+  "login": {
+    "title": "Welcome",
+    "subtitle": "Sign in to your account",
+    "emailLabel": "Email Address",
+    "emailPlaceholder": "Enter your email",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "signInButton": "Sign In",
+    "signingIn": "Signing in...",
+    "backToHome": "Back to Home",
+    "invalidCredentials": "Invalid email or password",
+    "welcomeMessage": "Log in to continue your journey with us and explore more opportunities.",
+    "login": "Login",
+    "register": "Register"
+  },
+  "register": {
+    "title": "Registration",
+    "subtitle": "Create a new account",
+    "emailLabel": "Email",
+    "emailPlaceholder": "Enter your email",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Create a password",
+    "registerButton": "Register",
+    "registering": "Registering...",
+    "backToHome": "Back to Home",
+    "fillAllFields": "Please fill out all fields",
+    "registrationError": "Registration error. Please try again.",
+    "welcomeMessage": "Register to join the community",
+    "login": "Login",
+    "register": "Register"
   }
 }

@@ -3,14 +3,15 @@ import { Product, ProductColor, ProductSize } from "@/types/product";
 import { Star, ChevronRight, Plus, Minus, Check } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-import { useCartStore } from "../../../store/carts"
+import { useCartStore } from "../../../store/carts";
+import { useTranslations } from "next-intl";
 
 interface ProductDetailsProps {
   product: Product;
 }
 
 export default function Details({ product }: ProductDetailsProps) {
-  // Обработка цветов
+  const t = useTranslations("productDetails");
   const availableColors: ProductColor[] = product.colors?.length
     ? product.colors
     : [
@@ -22,16 +23,18 @@ export default function Details({ product }: ProductDetailsProps) {
       ];
 
   const availableSizes: ProductSize[] = product.sizes?.length
-  ? product.sizes
-  : [
-      { sizeId: 1, sizeName: "S", quantity: 0 },
-      { sizeId: 2, sizeName: "M", quantity: 0 },
-      { sizeId: 3, sizeName: "L", quantity: 0 },
-      { sizeId: 4, sizeName: "XL", quantity: 0 },
-    ];
+    ? product.sizes
+    : [
+        { sizeId: 1, sizeName: "S", quantity: 0 },
+        { sizeId: 2, sizeName: "M", quantity: 0 },
+        { sizeId: 3, sizeName: "L", quantity: 0 },
+        { sizeId: 4, sizeName: "XL", quantity: 0 },
+      ];
 
   const [selectedColor, setSelectedColor] = useState<number>(0);
-  const [selectedSize, setSelectedSize] = useState<ProductSize>(availableSizes[0]);
+  const [selectedSize, setSelectedSize] = useState<ProductSize>(
+    availableSizes[0]
+  );
   const [quantity, setQuantity] = useState<number>(1);
   const addItem = useCartStore((state) => state.addItem);
 
@@ -90,20 +93,21 @@ export default function Details({ product }: ProductDetailsProps) {
       <nav className="flex items-center space-x-2 text-gray-500 mb-8">
         <Link href="/">
           <span className="hover:text-gray-700 cursor-pointer font-satoshi">
-            Home
+            {t("breadcrumbs.home")}
           </span>
         </Link>
         <ChevronRight className="w-4 h-4" />
         <span className="hover:text-gray-700 cursor-pointer font-satoshi">
-          <Link href="/shop">Shop</Link>
+          <Link href="/shop">{t("breadcrumbs.shop")}</Link>
         </span>
         <ChevronRight className="w-4 h-4" />
         <span className="text-black font-medium font-satoshi">
-          {product.category || "T-shirts"}
+          {product.category || t("breadcrumbs.category")}
         </span>
       </nav>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Изображение продукта */}
         <div className="flex-1 bg-gray-100 rounded-2xl aspect-square flex items-center justify-center">
           {product.photoUrl ? (
             <img
@@ -113,11 +117,12 @@ export default function Details({ product }: ProductDetailsProps) {
             />
           ) : (
             <div className="w-72 h-72 bg-gray-200 rounded-lg flex items-center justify-center">
-              <span className="text-gray-500 text-sm">No image</span>
+              <span className="text-gray-500 text-sm">{t("noImage")}</span>
             </div>
           )}
         </div>
 
+        {/* Информация о продукте */}
         <div className="space-y-6">
           <h1 className="text-3xl md:text-4xl font-satoshi font-black text-black">
             {product.name}
@@ -130,14 +135,16 @@ export default function Details({ product }: ProductDetailsProps) {
           </div>
 
           <p className="text-gray-600 leading-relaxed font-satoshi">
-            {product.description || "No description available"}
+            {product.description || t("noDescription")}
           </p>
 
           {availableColors.length > 0 && (
             <>
               <hr className="border-gray-200" />
               <div className="space-y-4">
-                <h3 className="text-gray-600 font-satoshi">Select Colors</h3>
+                <h3 className="text-gray-600 font-satoshi">
+                  {t("selectColors")}
+                </h3>
                 <div className="flex gap-3">
                   {availableColors.map((color: ProductColor, index: number) => {
                     const contrastColor = getContrastColor(color.hexCode);
@@ -173,7 +180,7 @@ export default function Details({ product }: ProductDetailsProps) {
 
           <hr className="border-gray-200" />
           <div className="space-y-4">
-            <h3 className="text-gray-600 font-satoshi">Choose Size</h3>
+            <h3 className="text-gray-600 font-satoshi">{t("chooseSize")}</h3>
             <div className="flex flex-wrap gap-3">
               {availableSizes.map((size: ProductSize) => (
                 <button
@@ -197,7 +204,7 @@ export default function Details({ product }: ProductDetailsProps) {
               <button
                 onClick={() => setQuantity(Math.max(1, quantity - 1))}
                 className="p-3 hover:bg-gray-200 rounded-full"
-                aria-label="Decrease quantity"
+                aria-label={t("quantity.decrease")}
               >
                 <Minus className="w-5 h-5" />
               </button>
@@ -205,7 +212,7 @@ export default function Details({ product }: ProductDetailsProps) {
               <button
                 onClick={() => setQuantity(quantity + 1)}
                 className="p-3 hover:bg-gray-200 rounded-full"
-                aria-label="Increase quantity"
+                aria-label={t("quantity.increase")}
               >
                 <Plus className="w-5 h-5" />
               </button>
@@ -215,7 +222,7 @@ export default function Details({ product }: ProductDetailsProps) {
               onClick={handleAddToCart}
               className="flex-1 bg-black text-white py-4 px-8 rounded-full font-satoshi hover:bg-gray-800 transition-colors"
             >
-              Add to Cart
+              {t("addToCart")}
             </button>
           </div>
         </div>

@@ -5,14 +5,17 @@ import { useProductsStore } from "../../../store/products";
 import Link from "next/link";
 import { Product } from "@/types/product";
 import { Dialog } from "@headlessui/react";
+import { useTranslations } from "next-intl";
+import { DualRangeSlider } from "../ui/slider";
 
 export default function Main() {
+  const t = useTranslations("shopPage");
   const { products, isLoading } = useProductsStore();
-  const [priceRange, setPriceRange] = useState([0, 500]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 500]);
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [sortBy, setSortBy] = useState("Most Popular");
+  const [sortBy, setSortBy] = useState(t("sort.popular"));
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
   const categories = ["T-shirts", "Shorts", "Shirts", "Hoodie", "Jeans"];
@@ -69,9 +72,9 @@ export default function Main() {
 
   const sortedProducts = [...filteredProducts].sort((a, b) => {
     switch (sortBy) {
-      case "Price: Low to High":
+      case t("sort.priceLow"):
         return a.price - b.price;
-      case "Price: High to Low":
+      case t("sort.priceHigh"):
         return b.price - a.price;
       default:
         return 0;
@@ -88,12 +91,14 @@ export default function Main() {
   const FiltersContent = ({ isMobile = false }) => (
     <div className="space-y-6">
       <div className="space-y-4">
-        <h3 className="font-semibold font-satoshi">Categories</h3>
+        <h3 className="font-semibold font-satoshi">
+          {t("filters.categories")}
+        </h3>
         {categories.map((category) => (
           <div key={category} className="flex items-center gap-2">
             <input
               type="checkbox"
-              id={`${isMobile ? 'mobile-' : ''}cat-${category}`}
+              id={`${isMobile ? "mobile-" : ""}cat-${category}`}
               checked={selectedCategories.includes(category)}
               onChange={() => {
                 setSelectedCategories((prev) =>
@@ -104,7 +109,10 @@ export default function Main() {
               }}
               className="w-4 h-4"
             />
-            <label htmlFor={`${isMobile ? 'mobile-' : ''}cat-${category}`} className="font-satoshi">
+            <label
+              htmlFor={`${isMobile ? "mobile-" : ""}cat-${category}`}
+              className="font-satoshi"
+            >
               {category}
             </label>
           </div>
@@ -112,26 +120,25 @@ export default function Main() {
       </div>
 
       <div className="space-y-4">
-        <h3 className="font-semibold font-satoshi">Price Range</h3>
+        <h3 className="font-semibold font-satoshi">
+          {t("filters.priceRange")}
+        </h3>
         <div className="flex items-center justify-between">
           <span className="font-satoshi">${priceRange[0]}</span>
           <span className="font-satoshi">${priceRange[1]}</span>
         </div>
-        <input
-          type="range"
-          min="0"
-          max="500"
-          step="10"
-          value={priceRange[1]}
-          onChange={(e) =>
-            setPriceRange([priceRange[0], parseInt(e.target.value)])
-          }
-          className="w-full"
+        <DualRangeSlider
+          min={0}
+          max={500}
+          step="auto"
+          value={priceRange}
+          onChange={setPriceRange}
+          className="py-2"
         />
       </div>
 
       <div className="space-y-4">
-        <h3 className="font-semibold font-satoshi">Colors</h3>
+        <h3 className="font-semibold font-satoshi">{t("filters.colors")}</h3>
         <div className="grid grid-cols-5 gap-3">
           {allColors.map((color) => (
             <button
@@ -155,7 +162,7 @@ export default function Main() {
       </div>
 
       <div className="space-y-4">
-        <h3 className="font-semibold font-satoshi">Size</h3>
+        <h3 className="font-semibold font-satoshi">{t("filters.sizes")}</h3>
         <div className="grid grid-cols-2 gap-2">
           {sizes.map((size) => (
             <button
@@ -183,14 +190,16 @@ export default function Main() {
         className="w-full bg-black text-white py-3 rounded-full font-satoshi font-medium hover:bg-gray-800 transition-colors"
         onClick={resetFilters}
       >
-        Reset Filters
+        {t("filters.reset")}
       </button>
     </div>
   );
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-64">Loading...</div>
+      <div className="flex justify-center items-center h-64">
+        {t("loading")}
+      </div>
     );
   }
 
@@ -199,39 +208,46 @@ export default function Main() {
       <nav className="flex items-center space-x-2 text-gray-500 mb-8">
         <Link href="/">
           <span className="hover:text-gray-700 cursor-pointer font-satoshi">
-            Home
+            {t("breadcrumbs.home")}
           </span>
         </Link>
         <ChevronRight className="w-4 h-4" />
-        <span className="text-black font-satoshi font-medium">Shop</span>
+        <span className="text-black font-satoshi font-medium">
+          {t("breadcrumbs.shop")}
+        </span>
       </nav>
 
       <div className="md:hidden flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold font-satoshi">Shop</h1>
+        <h1 className="text-2xl font-bold font-satoshi">{t("title")}</h1>
         <button
           className="flex items-center gap-2 text-sm font-satoshi text-black border border-gray-300 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors"
           onClick={() => setIsFiltersOpen(true)}
         >
           <SlidersHorizontal className="w-4 h-4" />
-          Filters
+          {t("filters.showFilters")}
         </button>
       </div>
 
       <div className="md:hidden mb-6">
         <div className="flex items-center justify-between">
           <span className="text-gray-600 font-satoshi text-sm">
-            {filteredProducts.length} of {products.length} Products
+            {t("productCount", {
+              filtered: filteredProducts.length,
+              total: products.length,
+            })}
           </span>
           <div className="flex items-center gap-2">
-            <span className="text-gray-600 font-satoshi text-sm">Sort:</span>
+            <span className="text-gray-600 font-satoshi text-sm">
+              {t("sort.label")}
+            </span>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
               className="border border-gray-300 rounded-lg px-3 py-1 text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-300 font-satoshi text-sm"
             >
-              <option>Most Popular</option>
-              <option>Price: Low to High</option>
-              <option>Price: High to Low</option>
+              <option>{t("sort.popular")}</option>
+              <option>{t("sort.priceLow")}</option>
+              <option>{t("sort.priceHigh")}</option>
             </select>
           </div>
         </div>
@@ -240,7 +256,9 @@ export default function Main() {
       <div className="flex gap-8">
         <div className="hidden md:block w-80 space-y-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-bold font-satoshi">Filters</h2>
+            <h2 className="text-xl font-bold font-satoshi">
+              {t("filters.title")}
+            </h2>
             <SlidersHorizontal className="w-5 h-5 text-gray-400" />
           </div>
           <FiltersContent />
@@ -248,21 +266,26 @@ export default function Main() {
 
         <div className="flex-1">
           <div className="hidden md:flex items-center justify-between mb-8">
-            <h1 className="text-3xl font-bold font-satoshi">Shop</h1>
+            <h1 className="text-3xl font-bold font-satoshi">{t("title")}</h1>
             <div className="flex items-center gap-4">
               <span className="text-gray-600 font-satoshi">
-                Showing {filteredProducts.length} of {products.length} Products
+                {t("productCount", {
+                  filtered: filteredProducts.length,
+                  total: products.length,
+                })}
               </span>
               <div className="flex items-center gap-2">
-                <span className="text-gray-600 font-satoshi">Sort by:</span>
+                <span className="text-gray-600 font-satoshi">
+                  {t("sort.label")}
+                </span>
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
                   className="border border-gray-300 rounded-lg px-3 py-1 text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-300 font-satoshi"
                 >
-                  <option>Most Popular</option>
-                  <option>Price: Low to High</option>
-                  <option>Price: High to Low</option>
+                  <option>{t("sort.popular")}</option>
+                  <option>{t("sort.priceLow")}</option>
+                  <option>{t("sort.priceHigh")}</option>
                 </select>
               </div>
             </div>
@@ -298,16 +321,18 @@ export default function Main() {
                     </span>
                   </div>
                   <div className="text-sm text-gray-500 font-satoshi">
-                    Sizes:{" "}
-                    {product.sizes
-                      ?.map((s: { sizeName: any }) => s.sizeName)
-                      .join(", ") || "Not specified"}
+                    {t("product.sizes", {
+                      sizes:
+                        product.sizes?.map((s) => s.sizeName).join(", ") ||
+                        t("product.noSizes"),
+                    })}
                   </div>
                   <div className="text-sm text-gray-500 font-satoshi">
-                    Colors:{" "}
-                    {product.colors
-                      ?.map((c: { colorName: any }) => c.colorName)
-                      .join(", ") || "Not specified"}
+                    {t("product.colors", {
+                      colors:
+                        product.colors?.map((c) => c.colorName).join(", ") ||
+                        t("product.noColors"),
+                    })}
                   </div>
                 </div>
               </Link>
@@ -317,7 +342,7 @@ export default function Main() {
           {filteredProducts.length === 0 && (
             <div className="text-center py-12">
               <p className="text-gray-500 text-lg font-satoshi">
-                No products found matching your filters
+                {t("noProducts")}
               </p>
             </div>
           )}
@@ -330,11 +355,13 @@ export default function Main() {
         className="relative z-50 md:hidden"
       >
         <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
-        
+
         <div className="fixed inset-0 flex items-end">
           <div className="w-full bg-white rounded-t-2xl p-6 max-h-[90vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-6 pb-4 border-b border-gray-200">
-              <h2 className="text-xl font-bold font-satoshi">Filters</h2>
+              <h2 className="text-xl font-bold font-satoshi">
+                {t("filters.title")}
+              </h2>
               <button
                 onClick={() => setIsFiltersOpen(false)}
                 className="p-2 hover:bg-gray-100 rounded-full transition-colors"
@@ -350,7 +377,7 @@ export default function Main() {
                 className="w-full bg-black text-white py-3 rounded-full font-satoshi font-medium hover:bg-gray-800 transition-colors"
                 onClick={() => setIsFiltersOpen(false)}
               >
-                Apply Filters ({filteredProducts.length} products)
+                {t("filters.apply", { count: filteredProducts.length })}
               </button>
             </div>
           </div>

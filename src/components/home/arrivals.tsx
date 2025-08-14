@@ -137,15 +137,6 @@ export default function Arrivals() {
             </Link>
           ))}
         </div>
-
-        <div className="text-center">
-          <button
-            onClick={() => setShowAll(!showAll)}
-            className="border border-gray-300 text-black px-16 py-3 rounded-full font-satoshi font-medium hover:bg-gray-50 transition-colors"
-          >
-            {showAll ? t("show_less") : t("view_all")}
-          </button>
-        </div>
       </div>
     </section>
   );
