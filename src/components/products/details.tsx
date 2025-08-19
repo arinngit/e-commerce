@@ -12,18 +12,34 @@ interface ProductDetailsProps {
 
 export default function Details({ product }: ProductDetailsProps) {
   const t = useTranslations("productDetails");
-  const availableColors: ProductColor[] = product.colors?.length
-    ? product.colors
-    : [
-        {
-          colorId: 0,
-          colorName: "Default",
-          hexCode: "#808080",
-        },
-      ];
+  const availableColors: ProductColor[] = product.variants
+    ? Array.from(
+        new Map(
+          product.variants.map((v) => [
+            v.colorId,
+            {
+              colorId: v.colorId,
+              colorName: v.colorName,
+              hexCode: v.colorHex,
+            },
+          ])
+        ).values()
+      )
+    : [{ colorId: 0, colorName: "Default", hexCode: "#808080" }];
 
-  const availableSizes: ProductSize[] = product.sizes?.length
-    ? product.sizes
+  const availableSizes: ProductSize[] = product.variants
+    ? Array.from(
+        new Map(
+          product.variants.map((v) => [
+            v.sizeId,
+            {
+              sizeId: v.sizeId,
+              sizeName: v.sizeName,
+              quantity: v.quantity,
+            },
+          ])
+        ).values()
+      )
     : [
         { sizeId: 1, sizeName: "S", quantity: 0 },
         { sizeId: 2, sizeName: "M", quantity: 0 },
@@ -39,15 +55,25 @@ export default function Details({ product }: ProductDetailsProps) {
   const addItem = useCartStore((state) => state.addItem);
 
   const handleAddToCart = () => {
-    const colorName = availableColors[selectedColor]?.colorName || "Default";
+    const selectedVariant = product.variants?.find(
+      (v) =>
+        v.colorId === availableColors[selectedColor].colorId &&
+        v.sizeId === selectedSize.sizeId
+    );
 
-    addItem({
-      name: product.name,
-      size: selectedSize.sizeName,
-      color: colorName,
-      price: product.price,
-      image: product.photoUrl || "",
-    });
+    if (selectedVariant) {
+      const id = `${product.id}-${selectedVariant.sizeId}-${selectedVariant.colorId}`;
+
+      addItem({
+        name: product.name,
+        size: selectedVariant.sizeName,
+        color: selectedVariant.colorName,
+        price: product.price,
+        image: product.photoUrl || "",
+        sku: selectedVariant.sku,
+        quantity: quantity,
+      });
+    }
   };
 
   const renderStars = (rating: number = 0) => {
@@ -122,7 +148,6 @@ export default function Details({ product }: ProductDetailsProps) {
           )}
         </div>
 
-        {/* Информация о продукте */}
         <div className="space-y-6">
           <h1 className="text-3xl md:text-4xl font-satoshi font-black text-black">
             {product.name}

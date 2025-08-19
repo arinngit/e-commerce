@@ -18,6 +18,8 @@ export default function Main() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState(t("sort.popular"));
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
 
   const categories = ["T-shirts", "Shorts", "Shirts", "Hoodie", "Jeans"];
   const sizes = ["XS", "S", "M", "L", "XL", "XXL"];
@@ -43,10 +45,18 @@ export default function Main() {
   }, 50);
 
   const getProductColors = (product: Product): string[] => {
+    if (product.variants && product.variants.length > 0) {
+      return [...new Set(product.variants.map((v) => v.colorName))];
+    }
     return product.colors?.map((c) => c.colorName) || [];
   };
 
   const getProductSizes = (product: Product): string[] => {
+    if (product.variants && product.variants.length > 0) {
+      return [
+        ...new Set(product.variants.map((v) => v.sizeName.toUpperCase())),
+      ];
+    }
     return product.sizes?.map((s) => s.sizeName.toUpperCase()) || [];
   };
 
@@ -85,6 +95,16 @@ export default function Main() {
         return 0;
     }
   });
+
+  const totalPages = Math.max(
+    1,
+    Math.ceil(sortedProducts.length / itemsPerPage)
+  );
+
+  const currentProducts = sortedProducts.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   const resetFilters = () => {
     setSelectedColors([]);
@@ -296,7 +316,7 @@ export default function Main() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            {sortedProducts.map((product) => (
+            {currentProducts.map((product) => (
               <Link
                 key={product.id}
                 href={`/products/${product.id}`}
@@ -327,19 +347,38 @@ export default function Main() {
                   <div className="text-sm text-gray-500 font-satoshi">
                     {t("product.sizes", {
                       sizes:
+                        product.variants?.map((v) => v.sizeName).join(", ") ||
                         product.sizes?.map((s) => s.sizeName).join(", ") ||
                         t("product.noSizes"),
                     })}
                   </div>
+
                   <div className="text-sm text-gray-500 font-satoshi">
                     {t("product.colors", {
                       colors:
+                        product.variants?.map((v) => v.colorName).join(", ") ||
                         product.colors?.map((c) => c.colorName).join(", ") ||
                         t("product.noColors"),
                     })}
                   </div>
                 </div>
               </Link>
+            ))}
+          </div>
+
+          <div className="flex justify-center gap-2 mt-6">
+            {Array.from({ length: totalPages }, (_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentPage(index + 1)}
+                className={`px-3 py-1 border rounded ${
+                  currentPage === index + 1
+                    ? "bg-black text-white font-satoshi font-medium"
+                    : ""
+                }`}
+              >
+                {index + 1}
+              </button>
             ))}
           </div>
 

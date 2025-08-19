@@ -187,7 +187,7 @@
       "home": "Home",
       "cart": "Cart"
     },
-    "title": "YOUR CART",
+    "title": "Your cart",
     "empty": {
       "message": "Your cart is empty",
       "continueShopping": "Continue Shopping"
@@ -250,5 +250,139 @@
     "welcomeMessage": "Register to join the community",
     "login": "Login",
     "register": "Register"
+  },
+
+  "ContactPage": {
+    "title": "Contact Our Store",
+    "subtitle": "We're happy to help with any questions about our products and services.",
+
+    "info_section": {
+      "title": "Store Information",
+      "address_label": "Office Address",
+      "address": "123 Example Street, Baku, Azerbaijan",
+      "phones_label": "Phone Numbers",
+      "email_label": "Email",
+      "hours_label": "Working Hours",
+      "hours": {
+        "weekdays": "Mon-Fri: 9:00 AM - 6:00 PM",
+        "saturday": "Sat: 10:00 AM - 4:00 PM",
+        "sunday": "Sun: Closed"
+      }
+    },
+
+    "social_section": {
+      "title": "Follow Us"
+    },
+
+    "form": {
+      "title": "Send Us a Message",
+      "name_label": "Name",
+      "email_label": "Email",
+      "subject_label": "Subject",
+      "message_label": "Message",
+      "submit_button": "Send Message",
+      "success_message": "Your message has been sent! We'll contact you soon."
+    },
+
+    "map_section": {
+      "title": "Find Us on Map"
+    },
+
+    "additional_info": {
+      "title": "Additional Information",
+      "point1": "We provide 24/7 support for all our customers. Any questions regarding orders, payments, or returns will be resolved quickly and professionally.",
+      "point2": "We have a feedback system where every review is considered to improve our service quality and product range.",
+      "point3": "You can subscribe to our newsletter to receive the latest news, promotions, and discounts."
+    }
+  },
+  "review": {
+    "title": "Reviews",
+    "loading": "Loading reviews...",
+    "error": "Error: {error}",
+    "noReviews": "No reviews yet.",
+    "writeReview": "Write a review",
+    "allReviews": "All reviews",
+    "postedOn": "Posted on {date}",
+    "loadMore": "Load more",
+    "sortOptions": {
+      "latest": "Newest first",
+      "oldest": "Oldest first",
+      "highest": "Highest rating",
+      "lowest": "Lowest rating"
+    },
+    "modal": {
+      "yourName": "Your name",
+      "yourRating": "Your rating",
+      "yourReview": "Your review",
+      "namePlaceholder": "Enter your name",
+      "reviewPlaceholder": "Write your review here...",
+      "cancel": "Cancel",
+      "submit": "Submit"
+    }
+  },
+  "delivery": {
+    "title": "Delivery Information",
+    "howItWorks": {
+      "title": "How Our Delivery Works",
+      "steps": {
+        "1": "Place your order online or via our mobile app",
+        "2": "We process and prepare your items for shipment within 1-2 business days",
+        "3": "Your package is handed over to the delivery service",
+        "4": "Receive your order at the specified delivery address"
+      }
+    },
+    "shippingOptions": {
+      "title": "Shipping Options",
+      "standard": {
+        "title": "Standard Delivery",
+        "description": "Regular shipping with tracking information",
+        "time": "3-5 business days",
+        "cost": "Free for orders over $50, otherwise $5.99"
+      },
+      "express": {
+        "title": "Express Delivery",
+        "description": "Priority shipping for urgent orders",
+        "time": "1-2 business days",
+        "cost": "$12.99"
+      },
+      "international": {
+        "title": "International Delivery",
+        "description": "Worldwide shipping with customs handling",
+        "time": "7-14 business days",
+        "cost": "Varies by destination"
+      }
+    },
+    "deliveryTime": "Delivery time",
+    "cost": "Cost",
+    "returns": {
+      "title": "Returns & Exchanges",
+      "policy": "We accept returns within 30 days of purchase under the following conditions:",
+      "items": {
+        "1": "Items must be unused and in original packaging",
+        "2": "Proof of purchase is required",
+        "3": "Some items may be final sale (marked clearly on product page)"
+      }
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "questions": {
+        "1": {
+          "question": "Can I track my order?",
+          "answer": "Yes, all orders come with tracking information sent to your email."
+        },
+        "2": {
+          "question": "What if I'm not home for delivery?",
+          "answer": "The carrier will leave a notice with instructions for pickup or redelivery."
+        },
+        "3": {
+          "question": "Do you ship to PO boxes?",
+          "answer": "Yes, we ship to PO boxes via standard delivery."
+        },
+        "4": {
+          "question": "How can I change my delivery address?",
+          "answer": "Contact us immediately if your order hasn't shipped yet. Address changes may not be possible once shipped."
+        }
+      }
+    }
   }
 }

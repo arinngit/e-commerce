@@ -250,5 +250,138 @@
     "welcomeMessage": "コミュニティに参加するために登録してください",
     "login": "ログイン",
     "register": "登録"
+  },
+  "ContactPage": {
+    "title": "お問い合わせ",
+    "subtitle": "商品やサービスに関するご質問がございましたら、お気軽にお問い合わせください。",
+
+    "info_section": {
+      "title": "店舗情報",
+      "address_label": "オフィス住所",
+      "address": "アゼルバイジャン、バクー市、123 Example Street",
+      "phones_label": "電話番号",
+      "email_label": "メールアドレス",
+      "hours_label": "営業時間",
+      "hours": {
+        "weekdays": "月曜日～金曜日: 9:00 - 18:00",
+        "saturday": "土曜日: 10:00 - 16:00",
+        "sunday": "日曜日: 定休日"
+      }
+    },
+
+    "social_section": {
+      "title": "SNSでフォロー"
+    },
+
+    "form": {
+      "title": "メッセージを送信",
+      "name_label": "お名前",
+      "email_label": "メールアドレス",
+      "subject_label": "件名",
+      "message_label": "メッセージ内容",
+      "submit_button": "送信する",
+      "success_message": "メッセージを送信しました。近日中にご連絡いたします。"
+    },
+
+    "map_section": {
+      "title": "地図で見る"
+    },
+
+    "additional_info": {
+      "title": "追加情報",
+      "point1": "24時間365日、すべてのお客様をサポートいたします。注文、支払い、返品に関するご質問には迅速かつ専門的に対応いたします。",
+      "point2": "フィードバックシステムを導入しており、すべてのレビューをサービス品質と商品ラインナップの改善に役立てています。",
+      "point3": "最新ニュース、プロモーション、割引情報を受け取るためにニュースレターにご登録ください。"
+    }
+  },
+  "review": {
+    "title": "レビュー",
+    "loading": "レビューを読み込み中...",
+    "error": "エラー: {error}",
+    "noReviews": "まだレビューはありません",
+    "writeReview": "レビューを書く",
+    "allReviews": "すべてのレビュー",
+    "postedOn": "{date} に投稿",
+    "loadMore": "さらに読み込む",
+    "sortOptions": {
+      "latest": "新しい順",
+      "oldest": "古い順",
+      "highest": "評価が高い順",
+      "lowest": "評価が低い順"
+    },
+    "modal": {
+      "yourName": "あなたの名前",
+      "yourRating": "評価",
+      "yourReview": "レビュー内容",
+      "namePlaceholder": "名前を入力してください",
+      "reviewPlaceholder": "ここにレビューを書いてください...",
+      "cancel": "キャンセル",
+      "submit": "送信"
+    }
+  },
+   "delivery": {
+    "title": "配送情報",
+    "howItWorks": {
+      "title": "配送の流れ",
+      "steps": {
+        "1": "オンラインまたはモバイルアプリで注文",
+        "2": "1-2営業日以内に商品を発送準備",
+        "3": "配送業者に引き渡し",
+        "4": "指定住所で商品を受け取り"
+      }
+    },
+    "shippingOptions": {
+      "title": "配送オプション",
+      "standard": {
+        "title": "標準配送",
+        "description": "追跡情報付きの通常配送",
+        "time": "3-5営業日",
+        "cost": "5,000円以上は無料、それ以下は600円"
+      },
+      "express": {
+        "title": "速達配送",
+        "description": "緊急注文向け優先配送",
+        "time": "1-2営業日",
+        "cost": "1,300円"
+      },
+      "international": {
+        "title": "国際配送",
+        "description": "通関手続きを含む国際配送",
+        "time": "7-14営業日",
+        "cost": "配送先により異なります"
+      }
+    },
+    "deliveryTime": "配送時間",
+    "cost": "費用",
+    "returns": {
+      "title": "返品・交換",
+      "policy": "以下の条件で購入後30日以内に返品可能です:",
+      "items": {
+        "1": "未使用で元の包装であること",
+        "2": "購入証明が必要です",
+        "3": "一部最終価格商品は返品不可（商品ページに明記）"
+      }
+    },
+    "faq": {
+      "title": "よくある質問",
+      "questions": {
+        "1": {
+          "question": "注文を追跡できますか？",
+          "answer": "はい、すべての注文に追跡情報がメールで送信されます。"
+        },
+        "2": {
+          "question": "配送時に不在の場合どうなりますか？",
+          "answer": "業者が不在票を残し、受け取り方法を案内します。"
+        },
+        "3": {
+          "question": "私書箱への配送は可能ですか？",
+          "answer": "はい、標準配送で私書箱へ配送可能です。"
+        },
+        "4": {
+          "question": "配送先住所を変更できますか？",
+          "answer": "発送前であればすぐにご連絡ください。発送後の変更は難しい場合があります。"
+        }
+      }
+    }
   }
 }

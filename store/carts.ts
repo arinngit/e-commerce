@@ -1,28 +1,30 @@
-import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware';
+import { create } from "zustand";
+import { persist, createJSONStorage } from "zustand/middleware";
 
 export const useCartStore = create<CartStore>()(
   persist(
     (set, get) => ({
       items: [],
       addItem: (item) => {
-        const existingItem = get().items.find(
-          (i) => 
-            i.name === item.name && 
-            i.size === item.size && 
-            i.color === item.color
-        );
+        const id = `${item.name}-${item.size}-${item.color}`;
+
+        const existingItem = get().items.find((i) => i.id === id);
 
         if (existingItem) {
-          get().updateQuantity(existingItem.id, 1);
+          set((state) => ({
+            items: state.items.map((i) =>
+              i.id === id
+                ? { ...i, quantity: i.quantity + item.quantity }
+                : i
+            ),
+          }));
         } else {
           set((state) => ({
             items: [
               ...state.items,
               {
                 ...item,
-                id: Date.now(),
-                quantity: 1,
+                id,
               },
             ],
           }));
@@ -32,9 +34,9 @@ export const useCartStore = create<CartStore>()(
         set((state) => ({
           items: state.items.map((item) =>
             item.id === id
-              ? { 
-                  ...item, 
-                  quantity: Math.max(1, item.quantity + change) 
+              ? {
+                  ...item,
+                  quantity: Math.max(1, item.quantity + change),
                 }
               : item
           ),
@@ -50,7 +52,7 @@ export const useCartStore = create<CartStore>()(
       },
     }),
     {
-      name: 'cart-storage',
+      name: "cart-storage",
       storage: createJSONStorage(() => localStorage),
     }
   )

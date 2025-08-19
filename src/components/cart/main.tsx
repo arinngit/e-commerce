@@ -13,12 +13,17 @@ import { useState } from "react";
 import { useCartStore } from "../../../store/carts";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
+import { useAuthStore } from "../../../store/auth";
 
 export default function ShoppingCart() {
   const { items, updateQuantity, removeItem, clearCart } = useCartStore();
   const [promoCode, setPromoCode] = useState("");
   const [isApplyingPromo, setIsApplyingPromo] = useState(false);
+  
   const t = useTranslations("cartPage");
+  const router = useRouter();
+  const isAuthenticated = useAuthStore((state) => !!state.accessToken);
 
   const subtotal = items.reduce(
     (sum, item) => sum + item.price * item.quantity,
@@ -38,9 +43,13 @@ export default function ShoppingCart() {
   };
 
   const handleCheckout = () => {
-    alert("Proceeding to checkout!");
+    if (!isAuthenticated) {
+      sessionStorage.setItem("returnUrl", window.location.pathname);
+      router.push("/auth/sign-in");
+      return;
+    }
+    router.push("/checkout")
   };
-
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 bg-white min-h-screen">
       <nav className="flex items-center text-gray-500 text-xs sm:text-sm mb-4 sm:mb-6 font-satoshi">
@@ -51,7 +60,7 @@ export default function ShoppingCart() {
         {t("breadcrumbs.cart")}
       </nav>
 
-      <h1 className="text-2xl sm:text-3xl md:text-4xl font-sans font-bold text-black mb-6 sm:mb-8">
+      <h1 className="text-2xl sm:text-3xl md:text-4xl font-satoshi font-medium text-black mb-6 sm:mb-8">
         {t("title")}
       </h1>
 
@@ -219,7 +228,7 @@ export default function ShoppingCart() {
                     disabled={!promoCode.trim() || isApplyingPromo}
                     className="bg-black text-white px-3 py-1 sm:px-4 sm:py-2 rounded-lg hover:bg-gray-800 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed text-sm sm:text-base"
                   >
-                    {isApplyingPromo ? "Applying..." : "Apply"}
+                    {isApplyingPromo ? "Apply" : "Apply"}
                   </button>
                 </div>
               </div>

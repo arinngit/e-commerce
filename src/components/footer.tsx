@@ -42,10 +42,8 @@ export default function FooterWithNewsletter() {
         </div>
       </section>
 
-      {/* Main Footer Content */}
       <div className="bg-[#F0F0F0] pt-28 md:pt-50 pb-20 md:pb-40 px-4 md:px-20">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-0 lg:justify-between">
-          {/* About Section (остаётся без изменений) */}
           <div className="flex flex-col gap-6 md:gap-10 lg:max-w-xs">
             <h1 className="text-3xl md:text-5xl font-bold">
               {t("aboutSection.title")}
@@ -85,9 +83,7 @@ export default function FooterWithNewsletter() {
             </div>
           </div>
 
-          {/* Links Sections */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 lg:gap-12">
-            {/* Company Links */}
             <div className="flex flex-col gap-4 md:gap-6">
               <h3 className="font-satoshi font-bold text-sm md:text-base">
                 {t("links.company.title")}
@@ -103,7 +99,6 @@ export default function FooterWithNewsletter() {
               </div>
             </div>
 
-            {/* Help Links */}
             <div className="flex flex-col gap-4 md:gap-6">
               <h3 className="font-satoshi font-bold text-sm md:text-base">
                 {t("links.help.title")}
@@ -119,7 +114,6 @@ export default function FooterWithNewsletter() {
               </div>
             </div>
 
-            {/* FAQ Links */}
             <div className="flex flex-col gap-4 md:gap-6">
               <h3 className="font-satoshi font-bold text-sm md:text-base">
                 {t("links.faq.title")}
@@ -135,7 +129,6 @@ export default function FooterWithNewsletter() {
               </div>
             </div>
 
-            {/* Resources Links */}
             <div className="flex flex-col gap-4 md:gap-6">
               <h3 className="font-satoshi font-bold text-sm md:text-base">
                 {t("links.resources.title")}
@@ -154,7 +147,6 @@ export default function FooterWithNewsletter() {
         </div>
       </div>
 
-      {/* Copyright Section */}
       <div className="bg-[#F0F0F0] md:px-20 -mt-16">
         <div className="w-full h-[1px] bg-gray-300 mb-9" />
         <div className="pb-6 flex justify-center md:justify-start">

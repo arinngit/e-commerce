@@ -130,13 +130,13 @@ export default function Navbar() {
             {t("on_sale")}
           </Link>
           <Link
-            href="#"
+            href="/contacts"
             className="text-black font-satoshi hover:text-gray-600"
           >
             {t("new_arrivals")}
           </Link>
           <Link
-            href="#"
+            href="/delivery"
             className="text-black font-satoshi hover:text-gray-600"
           >
             {t("brands")}
@@ -278,10 +278,10 @@ export default function Navbar() {
           <Link href="/shop" className="block text-black hover:text-gray-600">
             {t("shop")}
           </Link>
-          <Link href="#" className="block text-black hover:text-gray-600">
+          <Link href="/about" className="block text-black hover:text-gray-600">
             {t("on_sale")}
           </Link>
-          <Link href="#" className="block text-black hover:text-gray-600">
+          <Link href="/contacts" className="block text-black hover:text-gray-600">
             {t("new_arrivals")}
           </Link>
           <Link href="#" className="block text-black hover:text-gray-600">

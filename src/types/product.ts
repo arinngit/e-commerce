@@ -10,6 +10,27 @@ export interface ProductSize {
   quantity: number;
 }
 
+export interface ProductVariant {
+  id: number;
+  productId: number;
+  sizeId: number;
+  sizeName: string;
+  colorId: number;
+  colorName: string;
+  colorHex: string;
+  quantity: number;
+  sku: string;
+}
+
+export interface Rating {
+  id: number;
+  userId: number;
+  productId: number;
+  value: number;
+  comment?: string;
+  createdAt: string;
+}
+
 export interface Product {
   id: number;
   name: string;
@@ -17,9 +38,13 @@ export interface Product {
   category: string;
   price: number;
   photoUrl: string;
-  createdAt?: string;
-  updatedAt?: string;
-  sizes?: ProductSize[];
+  createdAt: string;
+  updatedAt: string;
+
+  variants?: ProductVariant[];
+  averageRating?: number;
+  ratings?: Rating[];
+
   colors?: ProductColor[];
-  rating?: number;
+  sizes?: ProductSize[];
 }
