@@ -10,7 +10,6 @@ import { useAuthNav } from "@/components/hooks/sign-in/use-auth-nav";
 import { useLocaleSwitcher } from "@/components/hooks/sign-in/use-locale-switcher";
 import { useClickOutside } from "@/components/hooks/sign-in/use-click-outside";
 import { useTranslations } from "next-intl";
-import AuthNav from "@/components/sign-in/AuthNav/auth-nav";
 import HeroSection from "@/components/sign-in/HeroSection/hero-section";
 import AuthForm from "@/components/sign-in/AuthForm/auth-form";
 import LanguageSwitcher from "@/components/sign-in/LanguageSwitcher/language-switcher";

@@ -16,11 +16,12 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "../../../store/auth";
 
+
 export default function ShoppingCart() {
   const { items, updateQuantity, removeItem, clearCart } = useCartStore();
   const [promoCode, setPromoCode] = useState("");
   const [isApplyingPromo, setIsApplyingPromo] = useState(false);
-  
+
   const t = useTranslations("cartPage");
   const router = useRouter();
   const isAuthenticated = useAuthStore((state) => !!state.accessToken);
@@ -48,7 +49,7 @@ export default function ShoppingCart() {
       router.push("/auth/sign-in");
       return;
     }
-    router.push("/checkout")
+    router.push("/checkout");
   };
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 bg-white min-h-screen">
